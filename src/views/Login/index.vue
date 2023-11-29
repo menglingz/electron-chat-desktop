@@ -33,7 +33,7 @@ const userInfoStore = useUserInfoStore();
 const { proxy } = getCurrentInstance() as any;
 
 onMounted(() => {
-  print('WELCOME TO\nILOVEFCHAT');
+  print('WELCOME TO\nI LOVE FCHAT');
 });
 
 let text = ref<string>('');
@@ -192,7 +192,6 @@ const register = () => {
 
       span {
         color: #5140f0;
-        text-decoration: underline;
       }
     }
   }
