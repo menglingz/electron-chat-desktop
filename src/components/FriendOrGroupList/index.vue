@@ -2,8 +2,13 @@
   <ul class="list-content">
     <!-- listType => 0 好友  1 => 群聊 -->
     <template v-if="list.length">
-      <li class="list-item" v-for="(item, index) in list" :key="index"
-        :class="listCurrentIndex === index && !showClose ? 'active' : ''" @click="changeContactItem(item._id, index)">
+      <li
+        class="list-item"
+        v-for="(item, index) in list"
+        :key="index"
+        :class="listCurrentIndex === index && !showClose ? 'active' : ''"
+        @click="changeContactItem(item._id, index)"
+      >
         <div class="warp">
           <div class="user-img">
             <img :src="proxy.$baseUrl + item.imgUrl" alt="" />
@@ -20,42 +25,45 @@
     </template>
     <template v-else>
       <div class="no-contact">
-        <img src="@/assets/images/no_contact.png" alt="">
+        <img src="@/assets/images/no_contact.png" alt="" />
       </div>
     </template>
   </ul>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, getCurrentInstance } from "vue"
+import { ref, watch, getCurrentInstance } from 'vue';
 // 全局事件总线
-import $bus from "@/utils/eventBus"
+import $bus from '@/utils/eventBus';
 // baseUrl
-const { proxy } = getCurrentInstance() as any
+const { proxy } = getCurrentInstance() as any;
 
-const props = defineProps(["dataList", "listType", "showClose"])
-const $emit = defineEmits(['changeRightComponent'])
+const props = defineProps(['dataList', 'listType', 'showClose']);
+const $emit = defineEmits(['changeRightComponent']);
 
-const list = ref<any>([])
+const list = ref<any>([]);
 
-watch(() => props.dataList, (e) => {
-  listCurrentIndex.value = -1
-  list.value = e
-})
+watch(
+  () => props.dataList,
+  e => {
+    listCurrentIndex.value = -1;
+    list.value = e;
+  },
+);
 
 // 当前选中的聊天下标
-let listCurrentIndex = ref<number>(-1)
+let listCurrentIndex = ref<number>(-1);
 
 // 切换高亮显示
 const changeContactItem = (id: string, index: number) => {
-  listCurrentIndex.value = index
+  listCurrentIndex.value = index;
   // 关闭默认组件
   if (listCurrentIndex.value !== -1) {
-    $emit('changeRightComponent', 1)
+    $emit('changeRightComponent', 1);
   }
   // 主页信息
-  $bus.emit('contactHomeInfo', { listType: props.listType, id })
-}
+  $bus.emit('contactHomeInfo', { listType: props.listType, id });
+};
 </script>
 
 <style scoped lang="scss">

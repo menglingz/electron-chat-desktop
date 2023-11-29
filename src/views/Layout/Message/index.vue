@@ -14,44 +14,44 @@
     <div class="chat-content" v-if="$route.query.id">
       <MessageDetail />
     </div>
-    <div class="chat-content" v-else style="background-color: #f8f8f8;">
+    <div class="chat-content" v-else style="background-color: #f8f8f8">
       <DefaultContent />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Search from "@/components/Search/index.vue"
-import MessageList from '@/components/MessageList/index.vue'
-import MessageDetail from '@/components/MessageDetail/index.vue'
-import DefaultContent from '@/components/DefaultContent/index.vue'
-import { onMounted } from "vue"
+import Search from '@/components/Search/index.vue';
+import MessageList from '@/components/MessageList/index.vue';
+import MessageDetail from '@/components/MessageDetail/index.vue';
+import DefaultContent from '@/components/DefaultContent/index.vue';
+import { onMounted } from 'vue';
 // pinia
-import { useMessageStore } from '@/store/modules/message'
+import { useMessageStore } from '@/store/modules/message';
 // route
-import { useRouter, useRoute } from 'vue-router'
-import { ElMessage } from "element-plus"
-const { ipcRenderer } = require('electron')
+import { useRouter, useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus';
+const { ipcRenderer } = require('electron');
 // pinia
-const messageStore = useMessageStore()
+const messageStore = useMessageStore();
 // router
-const $router = useRouter()
-const $route = useRoute()
+const $router = useRouter();
+const $route = useRoute();
 
 ipcRenderer.on('update-success', (e: any, groupName: string) => {
-  ElMessage({ type: 'success', message: '已保存' })
-  messageStore.getMessageList()
-  $route.query.name = groupName
-})
+  ElMessage({ type: 'success', message: '已保存' });
+  messageStore.getMessageList();
+  $route.query.name = groupName;
+});
 
 onMounted(() => {
   // 获取聊天列表数据
-  messageStore.getMessageList()
-})
+  messageStore.getMessageList();
+});
 
 const goContact = () => {
-  $router.push('/contact')
-}
+  $router.push('/contact');
+};
 </script>
 
 <style scoped lang="scss">

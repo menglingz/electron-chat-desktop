@@ -1,8 +1,8 @@
 *,
 *:after,
 *:before {
-    box-sizing: border-box;
-    outline: none;
+  box-sizing: border-box;
+  outline: none;
 }
 
 html,
@@ -86,15 +86,15 @@ time,
 mark,
 audio,
 video {
-    font: inherit;
-    font-size: 100%;
+  font: inherit;
+  font-size: 100%;
 
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 
-    vertical-align: baseline;
+  vertical-align: baseline;
 
-    border: 0;
+  border: 0;
 }
 
 article,
@@ -108,137 +108,136 @@ hgroup,
 menu,
 nav,
 section {
-    display: block;
+  display: block;
 }
 
 body {
-    line-height: 1;
+  line-height: 1;
 }
 
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 blockquote,
 q {
-    quotes: none;
+  quotes: none;
 
-    &:before,
-    &:after {
-        content: '';
-        content: none;
-    }
+  &:before,
+  &:after {
+    content: '';
+    content: none;
+  }
 }
 
 sub,
 sup {
-    font-size: 75%;
-    line-height: 0;
+  font-size: 75%;
+  line-height: 0;
 
-    position: relative;
+  position: relative;
 
-    vertical-align: baseline;
+  vertical-align: baseline;
 }
 
 sup {
-    top: -.5em;
+  top: -0.5em;
 }
 
 sub {
-    bottom: -.25em;
+  bottom: -0.25em;
 }
 
 table {
-    border-spacing: 0;
-    border-collapse: collapse;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 input,
 textarea,
 button {
-    font-family: inhert;
-    font-size: inherit;
+  font-family: inhert;
+  font-size: inherit;
 
-    color: inherit;
+  color: inherit;
 }
 
 select {
-    text-indent: .01px;
-    text-overflow: '';
+  text-indent: 0.01px;
+  text-overflow: '';
 
-    border: 0;
-    border-radius: 0;
+  border: 0;
+  border-radius: 0;
 
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 select::-ms-expand {
-    display: none;
+  display: none;
 }
 
 code,
 pre {
-    font-family: monospace, monospace;
-    font-size: 1em;
+  font-family: monospace, monospace;
+  font-size: 1em;
 }
 
 html {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 body {
-    -moz-user-select: none;
-    /*火狐*/
-    -webkit-user-select: none;
-    /*webkit浏览器*/
-    -ms-user-select: none;
-    /*IE10*/
-    -khtml-user-select: none;
-    /*早期浏览器*/
-    -o-user-select: none;
-    user-select: none;
+  -moz-user-select: none;
+  /*火狐*/
+  -webkit-user-select: none;
+  /*webkit浏览器*/
+  -ms-user-select: none;
+  /*IE10*/
+  -khtml-user-select: none;
+  /*早期浏览器*/
+  -o-user-select: none;
+  user-select: none;
 }
 
 img {
-    -webkit-user-drag: none;
+  -webkit-user-drag: none;
 }
-
 
 // 公共样式（可拖拽）
 .drag {
-    user-select: none;
-    -webkit-app-region: drag;
+  user-select: none;
+  -webkit-app-region: drag;
 }
 
 // 公共样式（不可拖拽）
 .no-drag {
-    -webkit-app-region: no-drag;
+  -webkit-app-region: no-drag;
 }
 
 // 空间顶部可拖拽容器
 .drag-wrap {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 30px;
-    z-index: 999;
-    // background-color: #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  z-index: 999;
+  // background-color: #333;
 }
 
 // 文字单行省略
 .text-ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 // 滚动条省略
@@ -248,52 +247,51 @@ img {
 
 //滚动条样式
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: rgb(239, 239, 239);
-    border-radius: 2px;
+  background: rgb(239, 239, 239);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #bfbfbf;
-    border-radius: 10px;
+  background: #bfbfbf;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #bfbfbf;
+  background: #bfbfbf;
 }
 
 ::-webkit-scrollbar-corner {
-    background: #bfbfbf;
+  background: #bfbfbf;
 }
 
-
 :root {
-    // 暗色模式
-    --dark_WaiF: #656464; // 默认空白内容文字颜色
-    --dark-bg: #333333; // 背景色
-    --dark-text: #fff; // 文字颜色
-    // 亮色模式 
-    --light_WaiF: #cccccc; // 默认空白内容文字颜色
-    --light-bg: #fbfbfb; // 背景色
-    --light-background-color: #f8f8f8; // 基础背景色
-    --light-text: #333; // 文字颜色
+  // 暗色模式
+  --dark_WaiF: #656464; // 默认空白内容文字颜色
+  --dark-bg: #333333; // 背景色
+  --dark-text: #fff; // 文字颜色
+  // 亮色模式
+  --light_WaiF: #cccccc; // 默认空白内容文字颜色
+  --light-bg: #fbfbfb; // 背景色
+  --light-background-color: #f8f8f8; // 基础背景色
+  --light-text: #333; // 文字颜色
 
-    // 公共样式
-    --btn-bg: #4a89fc; // 按钮样式
+  // 公共样式
+  --btn-bg: #4a89fc; // 按钮样式
 }
 
 // login
 :root {
-    --primary-color: #4460f1;
-    --white-color: #ffffff;
+  --primary-color: #4460f1;
+  --white-color: #ffffff;
 
-    --light-text-color: #9398b3;
-    --light-bg-color: #f2f4ff;
-    --dark-color: #333333;
+  --light-text-color: #9398b3;
+  --light-bg-color: #f2f4ff;
+  --dark-color: #333333;
 
-    --background-color: #fcfcff;
+  --background-color: #fcfcff;
 }

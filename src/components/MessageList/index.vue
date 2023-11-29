@@ -1,8 +1,13 @@
 <template>
   <ul class="list-content">
     <template v-if="messageList.length">
-      <li class="list-item" :class="$route.query.id === item._id ? 'active' : ''" v-for="(item, index) in messageList"
-        :key="index" @click="changeChatList(item, index)">
+      <li
+        class="list-item"
+        :class="$route.query.id === item._id ? 'active' : ''"
+        v-for="(item, index) in messageList"
+        :key="index"
+        @click="changeChatList(item, index)"
+      >
         <div class="warp">
           <div class="user-img">
             <img :src="proxy.$baseUrl + item.imgUrl" alt="" />
@@ -11,78 +16,82 @@
             <div class="nick text-ellipsis">{{ item.nick ? item.nick : item.groupName }}</div>
             <div class="time">{{ formatMessageDate(item.lastMsg.time) }}</div>
           </div>
-          <div class="dots" v-show="item.unreadMsgCount">{{ item.unreadMsgCount > 99 ? '99+' : item.unreadMsgCount }}
+          <div class="dots" v-show="item.unreadMsgCount">
+            {{ item.unreadMsgCount > 99 ? '99+' : item.unreadMsgCount }}
           </div>
         </div>
       </li>
     </template>
     <template v-else>
       <div class="no-contact">
-        <img src="@/assets/images/no_message.png" alt="">
+        <img src="@/assets/images/no_message.png" alt="" />
       </div>
     </template>
   </ul>
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, watch, nextTick, onBeforeUnmount } from "vue"
+import { ref, getCurrentInstance, watch, nextTick, onBeforeUnmount } from 'vue';
 // ts
-import type { MessageList } from '@/api/message/type'
+import type { MessageList } from '@/api/message/type';
 // pinia
-import { useMessageStore } from '@/store/modules/message'
+import { useMessageStore } from '@/store/modules/message';
 // router
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router';
 // utils
-import { formatMessageDate } from '@/utils/formatMessageDate'
+import { formatMessageDate } from '@/utils/formatMessageDate';
 // pinia
-const messageStore = useMessageStore()
+const messageStore = useMessageStore();
 // router
-const $router = useRouter()
-const $route = useRoute()
+const $router = useRouter();
+const $route = useRoute();
 // baseUrl
-const { proxy } = getCurrentInstance() as any
+const { proxy } = getCurrentInstance() as any;
 
-const props = defineProps(['messageList'])
+const props = defineProps(['messageList']);
 
-const messageList = ref<MessageList[]>([])
+const messageList = ref<MessageList[]>([]);
 
-watch(() => props.messageList, (val: MessageList[]) => {
-  nextTick(() => {
-    messageList.value = val
-    // 将消息设置为已读
-    messageStore.setMessageRead()
-    if (messageStore.stagingInfo._id) {
-      // 暂存信息中保存了该好友/群信息
-      let currentIndex = messageList.value.findIndex(item => item._id === $route.query.id)
-      // 还未于该好友发过消息
-      if (currentIndex === -1) {
-        messageList.value.unshift(messageStore.stagingInfo)
-        // 清空暂存信息
-        messageStore.clearStagingInfo()
+watch(
+  () => props.messageList,
+  (val: MessageList[]) => {
+    nextTick(() => {
+      messageList.value = val;
+      // 将消息设置为已读
+      messageStore.setMessageRead();
+      if (messageStore.stagingInfo._id) {
+        // 暂存信息中保存了该好友/群信息
+        let currentIndex = messageList.value.findIndex(item => item._id === $route.query.id);
+        // 还未于该好友发过消息
+        if (currentIndex === -1) {
+          messageList.value.unshift(messageStore.stagingInfo);
+          // 清空暂存信息
+          messageStore.clearStagingInfo();
+        }
       }
-    }
-  })
-})
+    });
+  },
+);
 
 onBeforeUnmount(() => {
   // 清空暂存信息
-  messageStore.clearStagingInfo()
-})
+  messageStore.clearStagingInfo();
+});
 
 // 当前选中的聊天下标
-let listCurrentIndex = ref<number>(-1)
+let listCurrentIndex = ref<number>(-1);
 // 点击聊天列表切换的回调
 const changeChatList = (item: MessageList, index: number) => {
-  let id = item._id
-  if (id === $route.query.id) return
-  let type = item.type === "friendChat" ? 'friend' : 'group'
-  let name = item.type === "friendChat" ? item.nick : item.groupName
+  let id = item._id;
+  if (id === $route.query.id) return;
+  let type = item.type === 'friendChat' ? 'friend' : 'group';
+  let name = item.type === 'friendChat' ? item.nick : item.groupName;
   $router.push({
     path: '/message',
-    query: { id, type, name }
-  })
-  listCurrentIndex.value = index
-}
+    query: { id, type, name },
+  });
+  listCurrentIndex.value = index;
+};
 </script>
 
 <style scoped lang="scss">

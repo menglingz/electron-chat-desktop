@@ -8,10 +8,11 @@
 
 <style scoped lang="scss">
 @font-face {
-  font-family: "DefaultTitle";
+  font-family: 'DefaultTitle';
   font-weight: 400;
-  src: url("@/assets/iconfont/default_content.woff2") format("woff2"),
-    url("@/assets/iconfont/default_content.woff") format("woff");
+  src:
+    url('@/assets/iconfont/default_content.woff2') format('woff2'),
+    url('@/assets/iconfont/default_content.woff') format('woff');
   font-display: swap;
 }
 .default-content {
@@ -23,7 +24,7 @@
 }
 
 .title {
-  font-family: "DefaultTitle";
+  font-family: 'DefaultTitle';
   font-size: 100px;
   color: var(--light_WaiF);
 }

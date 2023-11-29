@@ -21,7 +21,7 @@
               v-if="item.userId._id === userInfoStore.userInfo._id"
             >
               <template #reference>
-                <el-icon style="margin-right: 5px;cursor: pointer;"><Delete /></el-icon>
+                <el-icon style="margin-right: 5px; cursor: pointer"><Delete /></el-icon>
               </template>
             </el-popconfirm>
           </div>
@@ -41,7 +41,7 @@
     </div>
     <!-- 空状态 -->
     <div class="notes-list no-data" v-else>
-      <el-empty :image-size="200"/>
+      <el-empty :image-size="200" />
     </div>
   </div>
   <!-- 编辑按钮 -->
@@ -71,9 +71,7 @@
             :style="` background-color:${item};`"
             @click="changeNotesColor(index)"
           >
-            <el-icon color="#7f7a54" v-show="notesColorCurrentIndex === index"
-              ><Select
-            /></el-icon>
+            <el-icon color="#7f7a54" v-show="notesColorCurrentIndex === index"><Select /></el-icon>
           </div>
         </div>
       </div>
@@ -88,26 +86,26 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, getCurrentInstance } from "vue";
-import { reqAddNotes, reqGetNotes, reqDelNotes } from "@/api/notes/index";
+import { onMounted, ref, getCurrentInstance } from 'vue';
+import { reqAddNotes, reqGetNotes, reqDelNotes } from '@/api/notes/index';
 import type {
   AddNotesResponseData,
   NotesData,
   NotesResponseData,
   GetNotesResponseData,
-  DelNotesResponseData
-} from "@/api/notes/type";
+  DelNotesResponseData,
+} from '@/api/notes/type';
 // icon
-import { Plus, Select, Loading, Delete, InfoFilled } from "@element-plus/icons-vue";
+import { Plus, Select, Loading, Delete, InfoFilled } from '@element-plus/icons-vue';
 // element-plus
-import { ElMessage } from "element-plus";
+import { ElMessage } from 'element-plus';
 // 格式化时间函数
-import { formatTime } from "@/utils/formatTime";
+import { formatTime } from '@/utils/formatTime';
 // router
-import { useRouter } from "vue-router";
-const $router = useRouter()
+import { useRouter } from 'vue-router';
+const $router = useRouter();
 // store
-import { useUserInfoStore } from "@/store/modules/user";
+import { useUserInfoStore } from '@/store/modules/user';
 const userInfoStore = useUserInfoStore();
 // baseUrl
 const { proxy } = getCurrentInstance() as any;
@@ -118,8 +116,8 @@ onMounted(() => {
 });
 
 const initCanvas = () => {
-  const canvas: any = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
+  const canvas: any = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   // @ts-ignore
@@ -133,18 +131,17 @@ const initCanvas = () => {
   const terminalVelocity = 5;
   const drag = 0.075;
   const colors = [
-    { front: "red", back: "darkred" },
-    { front: "green", back: "darkgreen" },
-    { front: "blue", back: "darkblue" },
-    { front: "yellow", back: "darkyellow" },
-    { front: "orange", back: "darkorange" },
-    { front: "pink", back: "darkpink" },
-    { front: "purple", back: "darkpurple" },
-    { front: "turquoise", back: "darkturquoise" },
+    { front: 'red', back: 'darkred' },
+    { front: 'green', back: 'darkgreen' },
+    { front: 'blue', back: 'darkblue' },
+    { front: 'yellow', back: 'darkyellow' },
+    { front: 'orange', back: 'darkorange' },
+    { front: 'pink', back: 'darkpink' },
+    { front: 'purple', back: 'darkpurple' },
+    { front: 'turquoise', back: 'darkturquoise' },
   ];
 
-  const randomRange = (min: number, max: number) =>
-    Math.random() * (max - min) + min;
+  const randomRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
   const initConfetti = () => {
     for (let i = 0; i < confettiCount; i++) {
@@ -178,20 +175,15 @@ const initCanvas = () => {
       ctx.translate(confetto.position.x, confetto.position.y);
       ctx.rotate(confetto.rotation);
       confetto.velocity.x -= confetto.velocity.x * drag;
-      confetto.velocity.y = Math.min(
-        confetto.velocity.y + gravity,
-        terminalVelocity
-      );
-      confetto.velocity.x +=
-        Math.random() > 0.5 ? Math.random() : -Math.random();
+      confetto.velocity.y = Math.min(confetto.velocity.y + gravity, terminalVelocity);
+      confetto.velocity.x += Math.random() > 0.5 ? Math.random() : -Math.random();
       confetto.position.x += confetto.velocity.x;
       confetto.position.y += confetto.velocity.y;
       if (confetto.position.y >= canvas.height) confetti.splice(index, 1);
       if (confetto.position.x > canvas.width) confetto.position.x = 0;
       if (confetto.position.x < 0) confetto.position.x = canvas.width;
       confetto.scale.y = Math.cos(confetto.position.y * 0.1);
-      ctx.fillStyle =
-        confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
+      ctx.fillStyle = confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
       ctx.fillRect(-width / 2, -height / 2, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
     });
@@ -212,7 +204,7 @@ let showLoadingMore = ref<boolean>(false);
 const getNotes = async (pageNum?: number) => {
   let res: GetNotesResponseData = await reqGetNotes(pageNum);
   if (res.status === 200) {
-    res.data.forEach((i) => {
+    res.data.forEach(i => {
       i.time = formatTime(new Date(i.time));
     });
     notesList.value = [...notesList.value, ...(res.data as any)];
@@ -232,14 +224,7 @@ const loadingMore = () => {
 };
 
 // 便签背景颜色
-let notesColorArr = ref<string[]>([
-  "#fff5a8",
-  "#fbdc7c",
-  "#cfffce",
-  "#cde8ff",
-  "#e6c6ff",
-  "#ffc4c5",
-]);
+let notesColorArr = ref<string[]>(['#fff5a8', '#fbdc7c', '#cfffce', '#cde8ff', '#e6c6ff', '#ffc4c5']);
 // 当前选择便签颜色下标
 let notesColorCurrentIndex = ref<number>(0);
 // 更改便签颜色回调
@@ -249,13 +234,13 @@ const changeNotesColor = (index: number) => {
 
 // 控制弹出框的显示或隐藏
 const drawer = ref<boolean>(false);
-const direction = ref("rtl"); // 底部
+const direction = ref('rtl'); // 底部
 // 收集便签内容
-let notesText = ref<string>("");
+let notesText = ref<string>('');
 // 取消事件回调
 const cancelClick = () => {
   // 文字清空
-  notesText.value = "";
+  notesText.value = '';
   // 颜色默认选择为1
   notesColorCurrentIndex.value = 0;
   drawer.value = false;
@@ -264,8 +249,8 @@ const cancelClick = () => {
 const confirmClick = async () => {
   if (!notesText.value) {
     return ElMessage({
-      message: "留言的内容不能为空哦~",
-      type: "warning",
+      message: '留言的内容不能为空哦~',
+      type: 'warning',
     });
   }
   let notesData: NotesData = {
@@ -286,13 +271,13 @@ const confirmClick = async () => {
       text: notesText.value,
       color: notesColorArr.value[notesColorCurrentIndex.value],
       time: formatTime(new Date()),
-      _id: res._id
+      _id: res._id,
     };
     notesList.value.unshift(addData);
     cancelClick();
     ElMessage({
       message: res.msg,
-      type: "success",
+      type: 'success',
     });
   } else {
     ElMessage.error(res.msg);
@@ -300,18 +285,18 @@ const confirmClick = async () => {
 };
 
 // 删除便签的回调
-const handleConfirm = async(id: string) => {
-  let res:DelNotesResponseData = await reqDelNotes(id)
+const handleConfirm = async (id: string) => {
+  let res: DelNotesResponseData = await reqDelNotes(id);
   if (res.status === 200) {
-    $router.go(0)
+    $router.go(0);
     ElMessage({
       message: res.msg,
-      type: "success",
+      type: 'success',
     });
   } else {
     ElMessage.error(res.msg);
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

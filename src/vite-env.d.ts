@@ -2,11 +2,11 @@
 // declare module '*.vue' {
 //     import { Component } from 'vue'; const component: Component; export default component;
 // }
-declare module "*.vue" {
-    import { ComponentOptions } from "vue";
+declare module '*.vue' {
+  import { ComponentOptions } from 'vue';
 
-    const componentOptions: ComponentOptions;
+  const componentOptions: ComponentOptions;
 
-    export default componentOptions;
+  export default componentOptions;
 }
-declare module "element-plus/dist/locale/zh-cn.mjs";
+declare module 'element-plus/dist/locale/zh-cn.mjs';

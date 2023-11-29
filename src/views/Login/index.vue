@@ -19,96 +19,96 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, getCurrentInstance } from "vue"
+import { onMounted, ref, getCurrentInstance } from 'vue';
 // 引入api接口
-import { reqLogin } from '@/api/login_register/index'
-import { ElMessage } from "element-plus"
+import { reqLogin } from '@/api/login_register/index';
+import { ElMessage } from 'element-plus';
 // 引入ts类型
-import type { LoginResponse, UserInfoData } from '@/api/login_register/type'
-import { useRouter } from 'vue-router'
-import { useUserInfoStore } from '@/store/modules/user'
-const { ipcRenderer } = require('electron')
-const $router = useRouter()
-const userInfoStore = useUserInfoStore()
-const { proxy } = getCurrentInstance() as any
+import type { LoginResponse, UserInfoData } from '@/api/login_register/type';
+import { useRouter } from 'vue-router';
+import { useUserInfoStore } from '@/store/modules/user';
+const { ipcRenderer } = require('electron');
+const $router = useRouter();
+const userInfoStore = useUserInfoStore();
+const { proxy } = getCurrentInstance() as any;
 
 onMounted(() => {
-  print('WELCOME TO\nILOVEFCHAT')
-})
+  print('WELCOME TO\nILOVEFCHAT');
+});
 
-let text = ref<string>('')
+let text = ref<string>('');
 // 打印机效果
 const print = async (printInfo: string) => {
-  let printText = printInfo
+  let printText = printInfo;
   for (let i = 0; i < printText.length; i++) {
-    let str = printText.slice(i, i + 1)
+    let str = printText.slice(i, i + 1);
     if (str === '\n') {
-      text.value = text.value + '<br>'
+      text.value = text.value + '<br>';
     } else {
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         setTimeout(() => {
-          text.value = text.value + str
-          resolve(null)
-        }, 80)
-      })
+          text.value = text.value + str;
+          resolve(null);
+        }, 80);
+      });
     }
   }
-  text.value = text.value
-}
+  text.value = text.value;
+};
 
 // 关于歪fChat回调
 const aboutWaiFChat = () => {
-  ipcRenderer.send('open-about')
-}
+  ipcRenderer.send('open-about');
+};
 
 // 用户表单信息
 let userInfo = ref<UserInfoData>({
   phone: '',
-  password: ''
-})
+  password: '',
+});
 
-const loading = ref<boolean>(false)
+const loading = ref<boolean>(false);
 
 // 登录按钮
 const login = async () => {
-  const { phone, password } = userInfo.value
+  const { phone, password } = userInfo.value;
   const phoneNumberRegex: RegExp = /^1[3456789]\d{9}$/;
   if (!phoneNumberRegex.test(phone)) {
     return ElMessage({
       type: 'warning',
-      message: '请输入正确手机号'
-    })
+      message: '请输入正确手机号',
+    });
   } else if (!password) {
     return ElMessage({
       type: 'warning',
-      message: '密码不能为空'
-    })
+      message: '密码不能为空',
+    });
   }
-  loading.value = true
-  let res: LoginResponse = await reqLogin(userInfo.value)
+  loading.value = true;
+  let res: LoginResponse = await reqLogin(userInfo.value);
   if (res.status === 200) {
     // 存本地
-    localStorage.setItem('userInfo', JSON.stringify(res.data))
+    localStorage.setItem('userInfo', JSON.stringify(res.data));
     // 存pinia
-    userInfoStore.login(res.data)
+    userInfoStore.login(res.data);
     ElMessage({
       type: 'success',
-      message: res.msg
-    })
-    $router.push('/message')
+      message: res.msg,
+    });
+    $router.push('/message');
   } else {
     ElMessage({
       type: 'error',
-      message: res.msg
-    })
+      message: res.msg,
+    });
   }
-  loading.value = false
-}
+  loading.value = false;
+};
 
 // 注册按钮
 const register = () => {
-  $router.push('/register')
-}
+  $router.push('/register');
+};
 </script>
 
 <style scoped lang="scss">
@@ -123,10 +123,11 @@ const register = () => {
 }
 
 @font-face {
-  font-family: "Regular";
+  font-family: 'Regular';
   font-weight: 400;
-  src: url("../../assets/iconfont/login_register.woff2") format("woff2"),
-    url("../../assets/iconfont/login_register.woff") format("woff");
+  src:
+    url('../../assets/iconfont/login_register.woff2') format('woff2'),
+    url('../../assets/iconfont/login_register.woff') format('woff');
   font-display: swap;
 }
 
@@ -158,7 +159,7 @@ const register = () => {
       height: 100px;
       background: linear-gradient(to right, var(--primary-color), #c471ed, #f64f59);
       filter: blur(70px);
-      transition: all .5s;
+      transition: all 0.5s;
     }
 
     &:has(.desc:hover) {
@@ -251,7 +252,7 @@ const register = () => {
       margin: 30px 0;
       cursor: pointer;
       box-shadow: var(--primary-color) 0 20px 30px -10px;
-      transition: box-shadow .3s;
+      transition: box-shadow 0.3s;
 
       &:hover {
         box-shadow: var(--primary-color) 0 10px 30px -10px;

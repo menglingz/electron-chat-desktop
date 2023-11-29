@@ -1,7 +1,7 @@
 // 引入pinia
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
 
 // 安装pinia
-const pinia = createPinia()
+const pinia = createPinia();
 
-export default pinia
+export default pinia;

@@ -1,6 +1,6 @@
 <template>
   <div class="space-content">
-    <SpaceList :spaceDataList="spaceDataList" @commentRefresh="commentRefresh"/>
+    <SpaceList :spaceDataList="spaceDataList" @commentRefresh="commentRefresh" />
     <!-- 发布动态按钮 -->
     <div class="release-btn" @click="drawer = true">
       <el-icon size="20" color="#fff">
@@ -37,11 +37,7 @@
           </el-icon>
         </el-upload>
         <!-- 上传图片预览 -->
-        <el-image-viewer
-          v-if="showPreviewImg"
-          :url-list="urlList"
-          @close="closePreviewImg"
-        />
+        <el-image-viewer v-if="showPreviewImg" :url-list="urlList" @close="closePreviewImg" />
       </template>
       <template #footer>
         <div style="flex: auto">
@@ -53,150 +49,167 @@
     <div class="left">
       <!-- 刷新按钮 -->
       <div class="btn" @click="handleRefresh">
-        <svg t="1694922337264" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2450" width="25" height="25"><path d="M927.999436 531.028522a31.998984 31.998984 0 0 0-31.998984 31.998984c0 51.852948-10.147341 102.138098-30.163865 149.461048a385.47252 385.47252 0 0 1-204.377345 204.377345c-47.32295 20.016524-97.6081 30.163865-149.461048 30.163865s-102.138098-10.147341-149.461048-30.163865a385.47252 385.47252 0 0 1-204.377345-204.377345c-20.016524-47.32295-30.163865-97.6081-30.163865-149.461048s10.147341-102.138098 30.163865-149.461048a385.47252 385.47252 0 0 1 204.377345-204.377345c47.32295-20.016524 97.6081-30.163865 149.461048-30.163865a387.379888 387.379888 0 0 1 59.193424 4.533611l-56.538282 22.035878A31.998984 31.998984 0 1 0 537.892156 265.232491l137.041483-53.402685a31.998984 31.998984 0 0 0 18.195855-41.434674L639.723197 33.357261a31.998984 31.998984 0 1 0-59.630529 23.23882l26.695923 68.502679a449.969005 449.969005 0 0 0-94.786785-10.060642c-60.465003 0-119.138236 11.8488-174.390489 35.217667a449.214005 449.214005 0 0 0-238.388457 238.388457c-23.361643 55.252253-35.22128 113.925486-35.22128 174.390489s11.8488 119.138236 35.217668 174.390489a449.214005 449.214005 0 0 0 238.388457 238.388457c55.252253 23.368867 113.925486 35.217667 174.390489 35.217667s119.138236-11.8488 174.390489-35.217667A449.210393 449.210393 0 0 0 924.784365 737.42522c23.368867-55.270316 35.217667-113.925486 35.217667-174.390489a31.998984 31.998984 0 0 0-32.002596-32.006209z" fill="" p-id="2451"></path></svg>
+        <svg
+          t="1694922337264"
+          class="icon"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="2450"
+          width="25"
+          height="25"
+        >
+          <path
+            d="M927.999436 531.028522a31.998984 31.998984 0 0 0-31.998984 31.998984c0 51.852948-10.147341 102.138098-30.163865 149.461048a385.47252 385.47252 0 0 1-204.377345 204.377345c-47.32295 20.016524-97.6081 30.163865-149.461048 30.163865s-102.138098-10.147341-149.461048-30.163865a385.47252 385.47252 0 0 1-204.377345-204.377345c-20.016524-47.32295-30.163865-97.6081-30.163865-149.461048s10.147341-102.138098 30.163865-149.461048a385.47252 385.47252 0 0 1 204.377345-204.377345c47.32295-20.016524 97.6081-30.163865 149.461048-30.163865a387.379888 387.379888 0 0 1 59.193424 4.533611l-56.538282 22.035878A31.998984 31.998984 0 1 0 537.892156 265.232491l137.041483-53.402685a31.998984 31.998984 0 0 0 18.195855-41.434674L639.723197 33.357261a31.998984 31.998984 0 1 0-59.630529 23.23882l26.695923 68.502679a449.969005 449.969005 0 0 0-94.786785-10.060642c-60.465003 0-119.138236 11.8488-174.390489 35.217667a449.214005 449.214005 0 0 0-238.388457 238.388457c-23.361643 55.252253-35.22128 113.925486-35.22128 174.390489s11.8488 119.138236 35.217668 174.390489a449.214005 449.214005 0 0 0 238.388457 238.388457c55.252253 23.368867 113.925486 35.217667 174.390489 35.217667s119.138236-11.8488 174.390489-35.217667A449.210393 449.210393 0 0 0 924.784365 737.42522c23.368867-55.270316 35.217667-113.925486 35.217667-174.390489a31.998984 31.998984 0 0 0-32.002596-32.006209z"
+            fill=""
+            p-id="2451"
+          ></path>
+        </svg>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SpaceList from "@/components/SpaceList/index.vue";
-import { onMounted, ref, getCurrentInstance } from "vue";
+import SpaceList from '@/components/SpaceList/index.vue';
+import { onMounted, ref, getCurrentInstance } from 'vue';
 // 引入api接口
-import { reqGetSpaceList, reqUploadPhoto, reqAddSpace } from "@/api/space";
+import { reqGetSpaceList, reqUploadPhoto, reqAddSpace } from '@/api/space';
 // 引入ts类型
-import type { SpaceListResponseData, Spaces, AddSpaceResponseData, SpaceData } from "@/api/space/type";
+import type { SpaceListResponseData, Spaces, AddSpaceResponseData, SpaceData } from '@/api/space/type';
 // element-plus
-import { ElMessage } from "element-plus";
-import { Plus, CameraFilled } from "@element-plus/icons-vue";
-import type { UploadProps, UploadUserFile } from "element-plus";
+import { ElMessage } from 'element-plus';
+import { Plus, CameraFilled } from '@element-plus/icons-vue';
+import type { UploadProps, UploadUserFile } from 'element-plus';
 // pinia仓库
-import { useUserInfoStore } from "@/store/modules/user";
+import { useUserInfoStore } from '@/store/modules/user';
 const userInfoStore = useUserInfoStore();
 // baseUrl
 const { proxy } = getCurrentInstance() as any;
 
 onMounted(() => {
-  getSpaceList()
-})
+  getSpaceList();
+});
 
 // 存储空间动态列表
-let spaceDataList = ref<Spaces>([])
+let spaceDataList = ref<Spaces>([]);
 // 获取空间动态列表
 const getSpaceList = async () => {
-  let res: SpaceListResponseData = await reqGetSpaceList(userInfoStore.userInfo._id)
+  let res: SpaceListResponseData = await reqGetSpaceList(userInfoStore.userInfo._id);
   if (res.status === 200) {
-    const { _id } = userInfoStore.userInfo
+    const { _id } = userInfoStore.userInfo;
     res.data.forEach(i => {
-      i.textarea = ''
-      i.placeholder = '评论',
-      i.iptType = 0,
-      i.iptFromId = _id,
-      i.iptToId = _id
-      i.spaceCommentId = ''
-    })
-    spaceDataList.value = res.data
+      i.textarea = '';
+      (i.placeholder = '评论'), (i.iptType = 0), (i.iptFromId = _id), (i.iptToId = _id);
+      i.spaceCommentId = '';
+    });
+    spaceDataList.value = res.data;
   }
-}
+};
 
 // 控制弹出框的显示或隐藏
 const drawer = ref(false);
-const direction = ref("rtl"); // 底部
+const direction = ref('rtl'); // 底部
 
 // 发布动态文字
-let addSpaceText = ref<string>("")
+let addSpaceText = ref<string>('');
 // 提交给后端的文件列表
-const addSpacePhoto = ref<string[]>([])
+const addSpacePhoto = ref<string[]>([]);
 
 // 取消按钮回调
 const cancelClick = () => {
-  drawer.value = false
-  addSpaceText.value = ''
-  urlList.value = []
-  fileList.value = []
-  addSpacePhoto.value = []
-}
+  drawer.value = false;
+  addSpaceText.value = '';
+  urlList.value = [];
+  fileList.value = [];
+  addSpacePhoto.value = [];
+};
 // 发布按钮回调
-const confirmClick = async() => {
+const confirmClick = async () => {
   fileList.value.forEach(i => {
     // @ts-ignore
-    addSpacePhoto.value.push(i.response.url[0])
-  })
-  let spaceData:SpaceData = {
+    addSpacePhoto.value.push(i.response.url[0]);
+  });
+  let spaceData: SpaceData = {
     userId: userInfoStore.userInfo._id,
     textDesc: addSpaceText.value,
-    photos: addSpacePhoto.value
-  }
-  let res: AddSpaceResponseData = await reqAddSpace(spaceData)
+    photos: addSpacePhoto.value,
+  };
+  let res: AddSpaceResponseData = await reqAddSpace(spaceData);
   if (res.status === 200) {
     ElMessage({
       type: 'success',
-      message: res.msg
-    })
+      message: res.msg,
+    });
     // 清空数据
-    cancelClick()
+    cancelClick();
     // 向列表中添加一条数据
-    getSpaceList()
+    getSpaceList();
   } else {
-    ElMessage.error(res.msg + '请稍后再试')
+    ElMessage.error(res.msg + '请稍后再试');
   }
-}
+};
 
 // 文件上传的文件列表  { name: '', url: '' }
-const fileList = ref<UploadUserFile[]>([])
+const fileList = ref<UploadUserFile[]>([]);
 
 // 文件上传回调
 // @ts-ignore
-const handleChange: UploadProps["onChange"] = (response, uploadFile) => {
+const handleChange: UploadProps['onChange'] = (response, uploadFile) => {
   // element-plus已经为成功做了处理
   if (response.status === 'fail') {
     // 失败
-    ElMessage.error('图片上传失败')
+    ElMessage.error('图片上传失败');
   }
-}
+};
 // 文件超出限制的回调
 const handleExceed = () => {
-  ElMessage.error('图片最大只能上传9张哦')
-}
+  ElMessage.error('图片最大只能上传9张哦');
+};
 
 // 上传文件类型限制
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png' && rawFile.type !== 'image/jpg' && rawFile.type !== 'image/gif') {
-    ElMessage.error('只能上传图片哦')
-    return false
+const beforeAvatarUpload: UploadProps['beforeUpload'] = rawFile => {
+  if (
+    rawFile.type !== 'image/jpeg' &&
+    rawFile.type !== 'image/png' &&
+    rawFile.type !== 'image/jpg' &&
+    rawFile.type !== 'image/gif'
+  ) {
+    ElMessage.error('只能上传图片哦');
+    return false;
   } else if (rawFile.size / 1024 / 1024 > 5) {
-    ElMessage.error('图片最大只能上传5MB!!!')
-    return false
+    ElMessage.error('图片最大只能上传5MB!!!');
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 // 图片预览列表
-let urlList = ref<string[]>([])
+let urlList = ref<string[]>([]);
 // 图片预览的显示或隐藏
-const showPreviewImg = ref<boolean>(false)
+const showPreviewImg = ref<boolean>(false);
 
 // 点击图片预览回调
-const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
-  urlList.value = []
-  urlList.value.push((uploadFile.url) as string)
-  showPreviewImg.value = true
-}
+const handlePictureCardPreview: UploadProps['onPreview'] = uploadFile => {
+  urlList.value = [];
+  urlList.value.push(uploadFile.url as string);
+  showPreviewImg.value = true;
+};
 // 图片预览关闭回调
 const closePreviewImg = () => {
-  urlList.value = []
-  showPreviewImg.value = false
-}
+  urlList.value = [];
+  showPreviewImg.value = false;
+};
 
 // 刷新按钮回调
 const handleRefresh = () => {
-  getSpaceList()
-}
+  getSpaceList();
+};
 
 // 评论成功刷新回调
 const commentRefresh = () => {
-  getSpaceList()
-}
+  getSpaceList();
+};
 </script>
 
 <style scoped lang="scss">
