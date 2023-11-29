@@ -1,4 +1,4 @@
-## 歪fchat桌面端
+## electron-chat-desktop
 
 ### 项目介绍
 
@@ -23,10 +23,8 @@
 1. 安装node
 
 ```
-node -v 检查node版本
+nvm install 18.12.1(开发版本 v18.12.1)
 ```
-
-开发版本 v18.12.1
 
 2. 安装依赖
 
@@ -37,13 +35,11 @@ npm install
 3. 运行项目
 
 ```
-npm run dev
+npm run dev // 开发
+npm run eslint // eslint检查
 ```
 
-4. 温馨提示: 项目运行前需要运行后端代码  
-   `代码地址: https://gitee.com/wifi-skew-f/weif-chat-desktop-backend`
-
-5. 由于`vue3-video-play`第三方组件作者把他自己的包名引错了的原因, 需要启动项目, 还需要在`npm i`后, 在`node_modules`中找到`vue3-video-play`目录, 将目录下的`package.json`文件中的内容进行修改, 修改结果如下
+4. 由于`vue3-video-play`第三方组件作者把他自己的包名引错了的原因, 需要启动项目, 还需要在`npm i`后, 在`node_modules`中找到`vue3-video-play`目录, 将目录下的`package.json`文件中的内容进行修改, 修改结果如下
 
 ```
 "main": "./dist/index.umd.js",
@@ -57,7 +53,7 @@ npm run dev
 "module": "./dist/index.mjs"
 ```
 
-6. 打包: 执行`npm run dist`失败, 如下情况是因为网速过慢导致, 需要更改镜像源
+5. 打包: 执行`npm run dist`失败, 如下情况是因为网速过慢导致, 需要更改镜像源
 
 ```
  • packaging       platform=darwin arch=x64 electron=25.9.4 appOutDir=dist/mac
@@ -71,7 +67,3 @@ npm config set ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/
 //将 Electron-builder 镜像源设置为淘宝镜像源
 npm config set ELECTRON_BUILDER_BINARIES_MIRROR=http://npm.taobao.org/mirrors/electron-builder-binaries/
 ```
-
-7. 项目问题: 因为开发用的是mac, 电脑装的win10虚拟机后端是可以正常跑的, 貌似win和mac的文件路径不一样, 导致无法正常上传文件(上传图片应该可以用), 抽空我会找个win调试一下。
-
-8. 项目的视频通话等功能还在开发中...
