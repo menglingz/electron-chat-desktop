@@ -51,7 +51,7 @@
             </svg>
           </div>
         </template>
-        <Emoji @selectEmoji="selectEmoji" :historyEmojiList="historyEmojiList" />
+        <Emoji :history-emoji-list="historyEmojiList" @selectEmoji="selectEmoji" />
       </el-popover>
       <!-- 代码图标 -->
       <div
@@ -77,7 +77,10 @@
           ></path>
         </svg>
       </div>
-      <MarkDownEdit :markDownEditVisible="markDownEditVisible" @handleMarkDownEditVisible="handleMarkDownEditVisible" />
+      <MarkDownEdit
+        :mark-down-edit-visible="markDownEditVisible"
+        @handleMarkDownEditVisible="handleMarkDownEditVisible"
+      />
       <!-- 文件图标 -->
       <el-upload
         multiple
@@ -125,13 +128,13 @@
       >
         <div class="icon-box" @mouseover="photoActive = true" @mouseout="photoFlag ? '' : (photoActive = false)">
           <svg
+            id="mx_n_1693545790410"
             t="1693545790407"
             class="icon"
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             p-id="8736"
-            id="mx_n_1693545790410"
             width="26"
             height="26"
           >
@@ -163,7 +166,7 @@
     >
       发送
       <Transition>
-        <div class="tips" v-if="tips">
+        <div v-if="tips" class="tips">
           <div class="tip">Shift + Enter 换行</div>
           <div class="tip">Enter 回车</div>
         </div>
@@ -196,7 +199,6 @@ import type { MessageType } from '@/store/modules/interface/messageType';
 // route
 import { useRoute } from 'vue-router';
 // md5
-// @ts-ignore
 import SparkMD5 from 'spark-md5';
 // pinia
 const userInfoStore = useUserInfoStore();
@@ -208,8 +210,8 @@ const { proxy } = getCurrentInstance() as any;
 
 const emit = defineEmits(['handleSendMessage']);
 
-let message = ref<string>('');
-let tips = ref<boolean>(false);
+const message = ref<string>('');
+const tips = ref<boolean>(false);
 
 // 发送消息按钮回调
 const sendMessage = () => {
@@ -217,12 +219,12 @@ const sendMessage = () => {
     return Toast.show({ content: !message.value ? '消息不能为空' : '你的小作文别超过2000字' });
   }
   // 识别输入框的内容中是否带有链接
-  let reg = /(http:\/\/|https:\/\/|www\.)((\w|=|\?|\.|\/|&|-)+)/g;
-  let text = message.value;
+  const reg = /(http:\/\/|https:\/\/|www\.)((\w|=|\?|\.|\/|&|-)+)/g;
+  const text = message.value;
   // 链接处理后的结果
-  let message_res = text.replace(reg, (arg: string) => {
+  const message_res = text.replace(reg, (arg: string) => {
     let cur_str = arg;
-    if (arg.indexOf('http') == -1 && arg.indexOf('https') == -1) {
+    if (arg.indexOf('http') === -1 && arg.indexOf('https') === -1) {
       cur_str = 'http://' + arg;
     }
     return `<a href="${cur_str}" target="_blank" style="text-decoration: underline; cursor: pointer; color: inherit;">${arg}</a>`;
@@ -232,7 +234,7 @@ const sendMessage = () => {
   if (childNodes.value.length === 1 && childNodes.value[0].nodeName.toLowerCase() === 'img') {
     // 单个emoji 变为大图emoji (4为前后端约定的参数)
     msgType = 4;
-    let imgTag = `<img src="${childNodes.value[0].getAttribute('src')}" width="65" height="65">`;
+    const imgTag = `<img src="${childNodes.value[0].getAttribute('src')}" width="65" height="65">`;
     emit('handleSendMessage', imgTag, msgType);
   } else {
     emit('handleSendMessage', message_res, msgType);
@@ -245,17 +247,15 @@ const sendMessage = () => {
 // input的keydown事件
 const inputKeyDown = (e: any) => {
   if (e.shiftKey && e.keyCode === 13) {
-    return;
-  } else if (e.keyCode === 13) {
     e.preventDefault();
     sendMessage();
   }
 };
 
 // emoji图标是否选中
-let emojiActive = ref<boolean>(false);
+const emojiActive = ref<boolean>(false);
 // emoji组件是否打开
-let emojiFlag = ref<boolean>(false);
+const emojiFlag = ref<boolean>(false);
 
 // emoji组件展示
 const handleEmoji = () => {
@@ -264,7 +264,7 @@ const handleEmoji = () => {
 };
 
 // 自定义输入框子节点元素列表
-let childNodes = ref<any>([]);
+const childNodes = ref<any>([]);
 
 // 输入框input事件
 const messageInput = (e: Event) => {
@@ -276,10 +276,10 @@ const messageInputDom = ref();
 // 选择的emoji
 const selectEmoji = (index: number) => {
   // 没有焦点就获取输入框焦点
-  if (document.activeElement != messageInputDom.value) {
+  if (document.activeElement !== messageInputDom.value) {
     messageInputDom.value.focus();
   }
-  let emojiImg = `<img src="./gif/${index}.gif" width="25" height="25" style="vertical-align: middle;">`;
+  const emojiImg = `<img src="./gif/${index}.gif" width="25" height="25" style="vertical-align: middle;">`;
   document.execCommand('insertHTML', false, emojiImg);
   // 保存最近使用的emoji
   recentlyUseEmoji(index);
@@ -297,7 +297,7 @@ onMounted(() => {
 
 // 保存最近使用的emoji
 const recentlyUseEmoji = (index: number) => {
-  let idx = historyEmojiList.value.indexOf(index);
+  const idx = historyEmojiList.value.indexOf(index);
   if (idx < 0) {
     historyEmojiList.value.unshift(index);
   } else {
@@ -310,12 +310,12 @@ const recentlyUseEmoji = (index: number) => {
 };
 
 // emoji图标是否选中
-let codeActive = ref<boolean>(false);
+const codeActive = ref<boolean>(false);
 // emoji组件是否打开
-let codeFlag = ref<boolean>(false);
+const codeFlag = ref<boolean>(false);
 
 // 控制markdown弹窗显示或隐藏
-let markDownEditVisible = ref<boolean>(false);
+const markDownEditVisible = ref<boolean>(false);
 
 // markdown组件的自定义事件
 const handleMarkDownEditVisible = (val: boolean) => {
@@ -323,16 +323,16 @@ const handleMarkDownEditVisible = (val: boolean) => {
 };
 
 // 文件(大文件)上传图标是否选中
-let fileActive = ref<boolean>(false);
+const fileActive = ref<boolean>(false);
 // 文件(大文件)上传组件是否打开
-let fileFlag = ref<boolean>(false);
+const fileFlag = ref<boolean>(false);
 
 // 分片大小
 const CHUNK_SIZE = 1024 * 1024; // 1mb
 
 // 大文件上传回调
 const handleFileUpload = async (rawFile: any) => {
-  let file: File = rawFile.file;
+  const file: File = rawFile.file;
   if (!file.size) {
     return ElMessage({
       type: 'warning',
@@ -340,17 +340,17 @@ const handleFileUpload = async (rawFile: any) => {
     });
   }
   // 文件名
-  let fileName = file.name;
+  const fileName = file.name;
   // 文件后缀名
-  let fileSuffixName = extractExt(fileName);
+  const fileSuffixName = extractExt(fileName);
   // 消息类型
   let msgType = 3; // 文件消息类型为3
   let url = '';
   // 如果文件是图片/视频 图片 => 1 视频 => 2
   if (fileSuffixName === 'mp4' || fileSuffixName === 'mov') {
     // 获取视频第一帧
-    let viodeBase64 = await getVideoCover(file);
-    let videoInfo = {
+    const viodeBase64 = await getVideoCover(file);
+    const videoInfo = {
       base64: viodeBase64 as string, // 封面图
       url: '', // 视频地址
     };
@@ -371,13 +371,13 @@ const handleFileUpload = async (rawFile: any) => {
   }
   const { _id, nick, imgUrl } = userInfoStore.userInfo;
   // 文件信息(与图片、视频无关)
-  let fileInfo = {
+  const fileInfo = {
     fileName,
     size: file.size,
     fileSuffixName,
     url: '', // 上传后的url
   };
-  let data: MessageType = {
+  const data: MessageType = {
     userId: {
       _id,
       nick,
@@ -392,11 +392,11 @@ const handleFileUpload = async (rawFile: any) => {
   };
   messageStore.pushMessageData(data);
   // 文件分片
-  let chunks = createChunks(file); // 获得文件切片数组
+  const chunks = createChunks(file); // 获得文件切片数组
   // 计算文件hash 作为唯一标识
   const fileHash = await calculateHash(chunks);
   // 文件hash校验  (文件秒传 在上传文件前，就要把文件hash值告诉后端, 如果后端有该文件，直接返回上传成功)
-  let res = await reqVerifyHash(
+  const res = await reqVerifyHash(
     { fileHash: fileHash as string, fileName },
     $route.query.type === 'friend' ? 'private' : 'group',
   );
@@ -412,8 +412,8 @@ const handleFileUpload = async (rawFile: any) => {
         replaceIndex = index;
       }
     });
-    let data = messageStore.messageChatList[replaceIndex as number];
-    let msgType = data.msgType;
+    const data = messageStore.messageChatList[replaceIndex as number];
+    const msgType = data.msgType;
     data.loading = false;
     data.progressNum = 100;
     let dataObj;
@@ -422,12 +422,12 @@ const handleFileUpload = async (rawFile: any) => {
       dataObj = JSON.parse(data.message);
       dataObj.url = url;
     } else if (msgType === 2) {
-      let videoInfo = JSON.parse(data.message);
+      const videoInfo = JSON.parse(data.message);
       videoInfo.url = res.data.url;
       url = JSON.stringify(videoInfo);
     } else {
-      let scale = await imgScale(rawFile.file as File);
-      let imgHeight = 200 / scale;
+      const scale = await imgScale(rawFile.file as File);
+      const imgHeight = 200 / scale;
       url = JSON.stringify({
         url: res.data.url as string,
         height: imgHeight,
@@ -438,8 +438,8 @@ const handleFileUpload = async (rawFile: any) => {
     // 发送者id
     const { _id } = userInfoStore.userInfo;
     // 接收者id
-    let toId = $route.query.id;
-    let type = $route.query.type;
+    const toId = $route.query.id;
+    const type = $route.query.type;
     proxy.socket.emit(`${type === 'friend' ? 'private' : 'group'}_chat`, data, _id, toId);
   }
 };
@@ -450,20 +450,20 @@ const getVideoCover = (file: File) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function (e: any) {
-      let video = document.createElement('video');
+      const video = document.createElement('video');
       video.setAttribute('src', e.target.result);
       video.setAttribute('controls', 'controls');
       video.setAttribute('width', '260');
       video.setAttribute('height', '160');
       video.currentTime = 1; // 视频时长，一定要设置，不然大概率白屏
       video.addEventListener('loadeddata', function () {
-        let canvas = document.createElement('canvas');
-        let width = video.width;
-        let height = video.height;
+        const canvas = document.createElement('canvas');
+        const width = video.width;
+        const height = video.height;
         canvas.width = width;
         canvas.height = height;
         canvas.getContext('2d')?.drawImage(video, 0, 0, width, height); // 绘制canvas
-        let dataURL = canvas.toDataURL('image/png'); // 转换为base64
+        const dataURL = canvas.toDataURL('image/png'); // 转换为base64
         resolve(dataURL);
       });
     };
@@ -472,7 +472,7 @@ const getVideoCover = (file: File) => {
 
 // 文件切片
 const createChunks = (file: File) => {
-  let chunks = [];
+  const chunks = [];
   for (let i = 0; i < file.size; i += CHUNK_SIZE) {
     chunks.push(file.slice(i, i + CHUNK_SIZE));
   }
@@ -546,12 +546,12 @@ const uploadChunks = async (
   let num = 0; // 上传成功的切片数量
 
   for (let i = 0; i < formDatas.length; i++) {
-    let task = reqUploadFile(formDatas[i], $route.query.type === 'friend' ? 'private' : 'group');
+    const task = reqUploadFile(formDatas[i], $route.query.type === 'friend' ? 'private' : 'group');
 
     // 请求完成从请求池移除
     task.then(() => {
       num++;
-      let fileObj: any = messageStore.messageChatList.filter(item => {
+      const fileObj: any = messageStore.messageChatList.filter(item => {
         return item.uid === rawFile.uid;
       });
       fileObj[0].progressNum = (Math.round((num / formDatas.length) * 100) / 100) * 100;
@@ -575,12 +575,12 @@ const uploadChunks = async (
 
 // 合并切片
 const mergeRequest = async (fileHash: string, fileName: string, rawFile: any) => {
-  let data = {
+  const data = {
     fileHash,
     fileName,
     size: CHUNK_SIZE,
   };
-  let res = await reqMergeFile(data, $route.query.type === 'friend' ? 'private' : 'group');
+  const res = await reqMergeFile(data, $route.query.type === 'friend' ? 'private' : 'group');
   let replaceIndex: number | undefined;
   messageStore.messageChatList.forEach((item, index) => {
     // uid 上传每张图片的唯一标识
@@ -590,8 +590,8 @@ const mergeRequest = async (fileHash: string, fileName: string, rawFile: any) =>
   });
   if (res.status === 200) {
     // 合并成功, 向消息列表中push该条消息
-    let data = messageStore.messageChatList[replaceIndex as number];
-    let msgType = data.msgType;
+    const data = messageStore.messageChatList[replaceIndex as number];
+    const msgType = data.msgType;
     data.loading = false;
     let dataObj;
     let url = res.url;
@@ -599,12 +599,12 @@ const mergeRequest = async (fileHash: string, fileName: string, rawFile: any) =>
       dataObj = JSON.parse(data.message);
       dataObj.url = url;
     } else if (msgType === 2) {
-      let videoInfo = JSON.parse(data.message);
+      const videoInfo = JSON.parse(data.message);
       videoInfo.url = res.url;
       url = JSON.stringify(videoInfo);
     } else {
-      let scale = await imgScale(rawFile as File);
-      let imgHeight = 200 / scale;
+      const scale = await imgScale(rawFile as File);
+      const imgHeight = 200 / scale;
       url = JSON.stringify({
         url: res.url as string,
         height: imgHeight,
@@ -615,7 +615,7 @@ const mergeRequest = async (fileHash: string, fileName: string, rawFile: any) =>
     // 发送者id
     const { _id } = userInfoStore.userInfo;
     // 接收者id
-    let toId = $route.query.id;
+    const toId = $route.query.id;
     proxy.socket.emit(`${$route.query.type === 'friend' ? 'private' : 'group'}_chat`, data, _id, toId);
   } else {
     messageStore.delMessageData(replaceIndex as number);
@@ -624,9 +624,9 @@ const mergeRequest = async (fileHash: string, fileName: string, rawFile: any) =>
 };
 
 // 图片上传图标是否选中
-let photoActive = ref<boolean>(false);
+const photoActive = ref<boolean>(false);
 // 图片上传组件是否打开
-let photoFlag = ref<boolean>(false);
+const photoFlag = ref<boolean>(false);
 
 // 图片上传前的钩子
 const beforeAvatarUpload: UploadProps['beforeUpload'] = async rawFile => {
@@ -647,9 +647,9 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = async rawFile => {
   // 向自己消息列表中添加一条消息(本地图片图)
   try {
     // 文件读取成功
-    let url = await readerFile(rawFile);
+    const url = await readerFile(rawFile);
     const { _id, nick, imgUrl } = userInfoStore.userInfo;
-    let data: MessageType = {
+    const data: MessageType = {
       userId: {
         _id,
         nick,
@@ -674,7 +674,7 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = async rawFile => {
 const readerFile = (file: File) => {
   return new Promise((resolve, reject) => {
     let fileUrl = '';
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = e => {
       fileUrl = e.target?.result as string;
@@ -714,8 +714,8 @@ const handleUploadSuccess: UploadProps['onSuccess'] = async (
   uploadFile: UploadFile,
 ) => {
   if (response.res_code === 200) {
-    let scale = await imgScale(uploadFile.raw as File);
-    let imgHeight = 200 / scale;
+    const scale = await imgScale(uploadFile.raw as File);
+    const imgHeight = 200 / scale;
     // 向消息列表中push该条消息
     let replaceIndex: number | undefined;
     messageStore.messageChatList.forEach((item, index) => {
@@ -724,7 +724,7 @@ const handleUploadSuccess: UploadProps['onSuccess'] = async (
         replaceIndex = index;
       }
     });
-    let data = messageStore.messageChatList[replaceIndex as number];
+    const data = messageStore.messageChatList[replaceIndex as number];
     data.loading = false;
     data.message = JSON.stringify({
       url: response.url as string,
@@ -734,7 +734,7 @@ const handleUploadSuccess: UploadProps['onSuccess'] = async (
     // 发送者id
     const { _id } = userInfoStore.userInfo;
     // 接收者id
-    let toId = $route.query.id;
+    const toId = $route.query.id;
     proxy.socket.emit(`${$route.query.type === 'friend' ? 'private' : 'group'}_chat`, data, _id, toId);
   } else {
     ElMessage.error(response.msg);

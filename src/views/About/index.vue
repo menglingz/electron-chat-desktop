@@ -11,8 +11,8 @@
     </header>
     <!-- 主体 -->
     <main>
-      <div class="img-top"></div>
-      <MdPreview :modelValue="desc" id="md" />
+      <div class="img-top" />
+      <MdPreview id="md" :model-value="desc" />
     </main>
   </div>
 </template>
@@ -25,12 +25,11 @@ import 'md-editor-v3/lib/style.css';
 const { ipcRenderer, shell } = require('electron');
 const { proxy } = getCurrentInstance() as any;
 
-let desc = ref<string>('');
+const desc = ref<string>('');
 
 ipcRenderer.send('read-file');
 
-// @ts-ignore
-ipcRenderer.on('read-file', (e: any, str: string) => {
+ipcRenderer.on('read-file', (_e: any, str: string) => {
   desc.value = str;
 });
 
@@ -50,7 +49,7 @@ onBeforeUnmount(() => {
 // 打开浏览器
 const openBrowser = (e: any) => {
   if (e.target.href) {
-    let url = e.target.href;
+    const url = e.target.href;
     shell.openExternal(url);
   }
   e.preventDefault();

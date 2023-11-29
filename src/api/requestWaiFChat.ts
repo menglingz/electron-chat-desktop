@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable n/handle-callback-err */
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 

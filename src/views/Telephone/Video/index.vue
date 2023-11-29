@@ -35,7 +35,7 @@ const { videoInputs: cameras } = useDevicesList({
 
 const video = ref<HTMLVideoElement>();
 const { stream, enabled } = useUserMedia({
-  constraints: { video: { deviceId: currentCamera } },
+  constraints: { video: { deviceId: currentCamera } as any },
 });
 
 watchEffect(() => {

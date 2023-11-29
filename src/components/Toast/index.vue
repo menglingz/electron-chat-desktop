@@ -21,7 +21,7 @@ const props = defineProps({
   textAlign: {
     type: String,
     default: 'center',
-  },
+  } as any,
 });
 // 弹窗显隐控制
 const isShow = ref(false);

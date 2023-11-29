@@ -1,10 +1,10 @@
 <template>
   <div class="pop-content">
     <!-- 群聊 -->
-    <div class="group-user-list" v-if="$route.query.type === 'group'" style="border-radius: 10px; overflow: hidden">
+    <div v-if="$route.query.type === 'group'" class="group-user-list" style="border-radius: 10px; overflow: hidden">
       <el-collapse model-value="1">
         <el-collapse-item :title="`群成员 (${groupUserList.length})`" name="1">
-          <div class="group-user" v-for="(item, index) in groupUserList" :key="index">
+          <div v-for="(item, index) in groupUserList" :key="index" class="group-user">
             <div class="user-pic">
               <img :src="proxy.$baseUrl + item.userId.imgUrl" alt="" />
             </div>
@@ -20,9 +20,9 @@
       </el-collapse>
     </div>
     <div
+      v-if="$route.query.type === 'group' && groupCreateUserId === userInfoStore.userInfo._id"
       class="edit"
       @click="editGroup"
-      v-if="$route.query.type === 'group' && groupCreateUserId === userInfoStore.userInfo._id"
     >
       编辑群
     </div>
@@ -70,12 +70,12 @@ watch(
 );
 
 const groupUserList = ref<GroupUser[]>([]);
-let groupCreateUserId = ref<string>('');
+const groupCreateUserId = ref<string>('');
 
 // 获取群成员列表
 const getGroupUser = async () => {
-  let groupId = $route.query.id as string;
-  let res: GetGroupUserResponseData = await reqGetGroupUser(groupId);
+  const groupId = $route.query.id as string;
+  const res: GetGroupUserResponseData = await reqGetGroupUser(groupId);
   if (res.status === 200) {
     groupUserList.value = res.data.groupUser;
     groupCreateUserId.value = res.data.groupCreateUserId;
@@ -84,7 +84,7 @@ const getGroupUser = async () => {
 
 // 删除好友/退出群聊按钮回调
 const handleQuit = async () => {
-  let msgInfo =
+  const msgInfo =
     $route.query.type === 'friend'
       ? '删除好友'
       : groupCreateUserId.value === userInfoStore.userInfo._id
@@ -95,9 +95,9 @@ const handleQuit = async () => {
 
 // 确认删除好友/退出群聊
 const handleDetermineQuit = async () => {
-  let userId = userInfoStore.userInfo._id;
+  const userId = userInfoStore.userInfo._id;
   // 好友/群的id都在url中
-  let urlId = $route.query.id as string;
+  const urlId = $route.query.id as string;
   let res;
   if ($route.query.type === 'friend') {
     // 删除好友

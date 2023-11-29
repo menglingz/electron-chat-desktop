@@ -5,10 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-// 导入所需的模块
-// 在 preload 脚本中。
-const { ipcRenderer } = require('electron');
+import { onMounted } from 'vue';
 
 onMounted(() => {
   a();
@@ -27,7 +24,7 @@ async function a() {
           minHeight: 720,
           maxHeight: 720,
         },
-      },
+      } as any,
     });
     handleStream(stream);
   } catch (e) {
@@ -35,13 +32,13 @@ async function a() {
   }
 }
 
-function handleStream(stream) {
+function handleStream(stream: any) {
   const video = document.querySelector('video');
-  video.srcObject = stream;
-  video.onloadedmetadata = e => video.play();
+  (video as any).srcObject = stream;
+  (video as any).onloadedmetadata = () => (video as any).play();
 }
 
-function handleError(e) {
+function handleError(e: any) {
   console.log(e);
 }
 </script>

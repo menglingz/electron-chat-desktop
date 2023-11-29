@@ -6,7 +6,7 @@
       <HeaderMenu @open="open" />
     </div>
     <!-- pop背景层 -->
-    <div class="bg" v-if="isShow" @click="isShow = false"></div>
+    <div v-if="isShow" class="bg" @click="isShow = false"></div>
     <!-- pop弹出层 -->
     <div class="popup" :class="isShow ? 'show' : 'hidden'">
       <ChatPopup v-if="isShow" />
@@ -15,7 +15,7 @@
     <main ref="mainContent">
       <div class="messgae-content">
         <!-- 加载更多 -->
-        <div class="loading-more" v-if="messageStore.canLoadingMore">
+        <div v-if="messageStore.canLoadingMore" class="loading-more">
           <div v-if="!isLoading" class="more" @click="more">
             <span>加载更多</span>
             <el-icon size="13">
@@ -25,30 +25,30 @@
           <div v-else class="loading">加载中...</div>
         </div>
         <!-- 每条消息 -->
-        <div class="message-item" v-for="(item, index) in messageStore.messageChatList" :key="index">
+        <div v-for="(item, index) in messageStore.messageChatList" :key="index" class="message-item">
           <!-- 消息时间 -->
           <div
-            class="message-time"
             v-if="index === 0 ? true : messageStore.messageChatList[index - 1].time !== item.time"
+            class="message-time"
           >
             {{ item.time }}
           </div>
           <!-- 用户昵称 -->
-          <div class="user-nick" v-if="$route.query.type === 'group' && item.userId._id !== userInfoStore.userInfo._id">
+          <div v-if="$route.query.type === 'group' && item.userId._id !== userInfoStore.userInfo._id" class="user-nick">
             {{ item.userId.nick }}
           </div>
           <!-- 每条消息 -->
           <div :class="item.userId._id === userInfoStore.userInfo._id ? 'message-my' : 'message-friend'">
             <!-- 对方消息头像在左侧 -->
-            <div class="user-pic" v-if="item.userId._id !== userInfoStore.userInfo._id">
+            <div v-if="item.userId._id !== userInfoStore.userInfo._id" class="user-pic">
               <img :src="proxy.$baseUrl + item.userId.imgUrl" alt="" />
             </div>
             <div class="message-text-warp">
               <!-- 消息类型 0: 文本消息(包含emoji, 单个emoji会呈现大图) -->
               <div
+                v-if="item.msgType === 0"
                 class="message-text"
                 :class="item.userId._id === userInfoStore.userInfo._id ? 'my' : 'friend'"
-                v-if="item.msgType === 0"
               >
                 <div v-html="item.message"></div>
               </div>
@@ -84,14 +84,14 @@
                   </el-image>
                 </div>
                 <!-- loading -->
-                <div class="loading" v-if="item.loading">
+                <div v-if="item.loading" class="loading">
                   <img src="@/assets/svg/loading.svg" alt="" />
                 </div>
               </div>
               <!-- 消息类型 2: 视频消息 -->
               <div
-                class="message-video-cover"
                 v-if="item.msgType === 2"
+                class="message-video-cover"
                 @click="goVideoDetail(JSON.parse(item.message).url)"
               >
                 <div class="video-content">
@@ -116,19 +116,19 @@
                   </div>
                 </div>
                 <el-progress
-                  class="progress"
                   v-if="item.loading"
+                  class="progress"
                   :stroke-width="2"
                   :percentage="item.progressNum"
                   :show-text="false"
                 />
                 <!-- loading -->
-                <div class="loading" v-if="item.loading">
+                <div v-if="item.loading" class="loading">
                   <img src="@/assets/svg/loading.svg" alt="" />
                 </div>
               </div>
               <!-- 消息类型 3: 文件消息 -->
-              <div class="message-file" v-if="item.msgType === 3" @click="openFile(item.message)">
+              <div v-if="item.msgType === 3" class="message-file" @click="openFile(item.message)">
                 <img
                   width="40"
                   height="40"
@@ -144,35 +144,35 @@
                   <div class="message-file-size">{{ formatFileSize(JSON.parse(item.message).size) }}</div>
                 </div>
                 <el-progress
-                  class="progress"
                   v-if="item.loading"
+                  class="progress"
                   :stroke-width="2"
                   :percentage="item.progressNum"
                   :show-text="false"
                 />
                 <!-- loading -->
-                <div class="loading" v-if="item.loading">
+                <div v-if="item.loading" class="loading">
                   <img src="@/assets/svg/loading.svg" alt="" />
                 </div>
               </div>
               <!-- 消息类型 4: 单个emoji(变成大的emoji) -->
-              <div class="message-emoji" v-if="item.msgType === 4">
+              <div v-if="item.msgType === 4" class="message-emoji">
                 <div v-html="item.message"></div>
               </div>
               <!-- 消息类型 5: markdown预览 -->
               <div
+                v-if="item.msgType === 5"
                 class="message-md"
                 :class="item.userId._id === userInfoStore.userInfo._id ? 'my' : 'friend'"
-                v-if="item.msgType === 5"
               >
-                <MdPreview :modelValue="item.message" />
+                <MdPreview :model-value="item.message" />
               </div>
               <!-- 消息类型 6: 语音通话 -->
               <!-- 消息类型 7: 视频通话 -->
               <!-- 消息类型 8: 屏幕共享 -->
             </div>
             <!-- 自己头像在右边 -->
-            <div class="user-pic" v-if="item.userId._id === userInfoStore.userInfo._id">
+            <div v-if="item.userId._id === userInfoStore.userInfo._id" class="user-pic">
               <img :src="proxy.$baseUrl + item.userId.imgUrl" alt="" />
             </div>
           </div>
@@ -225,12 +225,12 @@ onMounted(() => {
 });
 
 // 当前聊天记录页数
-let pageNum = ref<number>(1);
+const pageNum = ref<number>(1);
 
 // 获取聊天记录列表
 const getChatRecordsList = (pageNum: number = 1) => {
   const userId = userInfoStore.userInfo._id; // 用户id
-  let id = $route.query.id; // 好友/群id
+  const id = $route.query.id; // 好友/群id
   if ($route.query.type === 'friend') {
     // 获取好友消息记录列表
     messageStore.getFriendChatRecordsList(userId, id as string, pageNum);
@@ -255,7 +255,7 @@ watch(
       // 获取页面上的a标签添加点击事件
       mainContent.value.querySelectorAll('a').forEach((a: HTMLAnchorElement) => {
         a.addEventListener('click', e => {
-          let url = a.href;
+          const url = a.href;
           e.preventDefault();
           ipcRenderer.send('open-webview', url);
         });
@@ -272,11 +272,11 @@ const mainContent = ref();
 // 记录内容高度
 const mainContentHeightArr = ref<number[]>([]);
 // 是否是初始化
-let isInit = ref<boolean>(true);
+const isInit = ref<boolean>(true);
 // 是否加载更多数据
-let isLoadingMore = ref<boolean>(false);
+const isLoadingMore = ref<boolean>(false);
 // 是在加载中
-let isLoading = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
 
 // 控制滚动方法
 const handleScroll = () => {
@@ -312,9 +312,9 @@ watch(
     isLoadingMore.value = false;
     isLoading.value = false;
     // 加载数据
-    let userId = userInfoStore.userInfo._id;
-    let type = $route.query.type;
-    let id = $route.query.id as string;
+    const userId = userInfoStore.userInfo._id;
+    const type = $route.query.type;
+    const id = $route.query.id as string;
     if (type === 'friend') {
       messageStore.getFriendChatRecordsList(userId, id, 1);
     } else if (type === 'group') {
@@ -328,7 +328,7 @@ watch(
 // 发送按钮事件回调
 const handleSendMessage = (msg: string, msgType: number) => {
   const { _id, nick, imgUrl } = userInfoStore.userInfo;
-  let data: MessageType = {
+  const data: MessageType = {
     userId: {
       _id,
       nick,
@@ -339,12 +339,13 @@ const handleSendMessage = (msg: string, msgType: number) => {
     message: msg,
   };
   // 发送者id
-  let uId = _id;
+  const uId = _id;
   // 接收者id
-  let toId = $route.query.id;
+  const toId = $route.query.id;
   messageStore.messageChatList.push(data);
   const chatType = $route.query.type;
   // 将消息置顶
+  // eslint-disable-next-line array-callback-return
   messageStore.messageList.map((item, index) => {
     if (item._id === $route.query.id) messageStore.messageList.unshift(messageStore.messageList.splice(index, 1)[0]);
   });
@@ -404,7 +405,7 @@ const goVideoDetail = (url: string) => {
 
 // 打开文件
 const openFile = (message: string) => {
-  let url = JSON.parse(message).url;
+  const url = JSON.parse(message).url;
   shell.openExternal(proxy.$baseUrl + url);
 };
 </script>

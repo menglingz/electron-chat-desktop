@@ -5,11 +5,11 @@ export interface ResponseData {
 // 聊天列表返回的ts类型
 export type MessageList = {
   imgUrl: string;
-  lastMsg?: {
+  lastMsg: {
     _id?: string;
     message?: string;
     msgType?: string;
-    time?: string | Date;
+    time?: any;
   };
   nick?: string;
   groupName?: string;

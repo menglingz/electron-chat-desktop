@@ -154,6 +154,7 @@ export const useMessageStore = defineStore('messageStore', {
         type: '',
         unreadMsgCount: 0,
         _id: '',
+        lastMsg: {},
       };
     },
   },

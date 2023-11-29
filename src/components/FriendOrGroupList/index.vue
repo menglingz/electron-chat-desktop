@@ -3,9 +3,9 @@
     <!-- listType => 0 好友  1 => 群聊 -->
     <template v-if="list.length">
       <li
-        class="list-item"
         v-for="(item, index) in list"
         :key="index"
+        class="list-item"
         :class="listCurrentIndex === index && !showClose ? 'active' : ''"
         @click="changeContactItem(item._id, index)"
       >
@@ -13,11 +13,11 @@
           <div class="user-img">
             <img :src="proxy.$baseUrl + item.imgUrl" alt="" />
           </div>
-          <div class="user-info" v-if="props.listType == 0">
+          <div v-if="props.listType == 0" class="user-info">
             <div class="nick">{{ item.nick }}</div>
             <div class="sign">{{ item.sign }}</div>
           </div>
-          <div class="group-info" v-else>
+          <div v-else class="group-info">
             <div class="name">{{ item.groupName }}</div>
           </div>
         </div>
@@ -52,7 +52,7 @@ watch(
 );
 
 // 当前选中的聊天下标
-let listCurrentIndex = ref<number>(-1);
+const listCurrentIndex = ref<number>(-1);
 
 // 切换高亮显示
 const changeContactItem = (id: string, index: number) => {

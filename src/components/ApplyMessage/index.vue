@@ -1,46 +1,60 @@
 <template>
   <div class="apply-message-content">
-    <div class="apply-message-title">{{ !props.titleType ? '好友通知' : '群通知' }}</div>
-    <div class="apply-message-list" v-if="friendNoagreeList.length && !props.titleType">
-      <div class="apply-message-item" v-for="(item, index) in friendNoagreeList" :key="index">
+    <div class="apply-message-title">
+      {{ !props.titleType ? '好友通知' : '群通知' }}
+    </div>
+    <div v-if="friendNoagreeList.length && !props.titleType" class="apply-message-list">
+      <div v-for="(item, index) in friendNoagreeList" :key="index" class="apply-message-item">
         <div class="pic">
           <img :src="proxy.$baseUrl + item.friendId?.imgUrl" alt="" />
         </div>
         <div class="info">
-          <div class="nick">{{ item.friendId?.nick }}</div>
+          <div class="nick">
+            {{ item.friendId?.nick }}
+          </div>
           <div class="info-bottom">
-            <div class="desc">{{ item.state === 0 ? '正在验证你的申请' : '请求添加为好友' }}</div>
-            <div class="time">{{ formatTime(new Date(item.time)) }}</div>
+            <div class="desc">
+              {{ item.state === 0 ? '正在验证你的申请' : '请求添加为好友' }}
+            </div>
+            <div class="time">
+              {{ formatTime(new Date(item.time)) }}
+            </div>
           </div>
         </div>
-        <div class="apply-state" v-if="item.state === 0">等待验证</div>
-        <div class="apply-state" v-else>
+        <div v-if="item.state === 0" class="apply-state">等待验证</div>
+        <div v-else class="apply-state">
           <el-button size="small" @click="handleAgreeBtn(item.friendId._id)">同意</el-button>
           <el-button type="danger" size="small" @click="handleRefuseBtn(item.friendId._id)">拒绝</el-button>
         </div>
       </div>
     </div>
-    <div class="apply-message-list" v-else-if="groupNoagreeList.length && props.titleType">
-      <div class="apply-message-item" v-for="(item, index) in groupNoagreeList" :key="index">
+    <div v-else-if="groupNoagreeList.length && props.titleType" class="apply-message-list">
+      <div v-for="(item, index) in groupNoagreeList" :key="index" class="apply-message-item">
         <div class="pic">
           <img :src="proxy.$baseUrl + item.groupId?.imgUrl" alt="" />
         </div>
         <div class="info">
-          <div class="nick">{{ item.groupId?.groupName }}</div>
+          <div class="nick">
+            {{ item.groupId?.groupName }}
+          </div>
           <div class="info-bottom">
-            <div class="desc">{{ item.userId.nick + ' 申请加入你的群聊' }}</div>
-            <div class="time">{{ formatTime(new Date(item.time)) }}</div>
+            <div class="desc">
+              {{ item.userId.nick + ' 申请加入你的群聊' }}
+            </div>
+            <div class="time">
+              {{ formatTime(new Date(item.time)) }}
+            </div>
           </div>
         </div>
         <div class="apply-state">
           <el-button size="small" @click="handleAgreeBtn(item.groupId._id, item.userId._id)">同意</el-button>
-          <el-button type="danger" size="small" @click="handleRefuseBtn(item.groupId._id, item.userId._id)"
-            >拒绝</el-button
-          >
+          <el-button type="danger" size="small" @click="handleRefuseBtn(item.groupId._id, item.userId._id)">
+            拒绝
+          </el-button>
         </div>
       </div>
     </div>
-    <div class="apply-message-list" v-else>
+    <div v-else class="apply-message-list">
       <el-empty description="暂无申请消息" image="./images/no-contact.png" :image-size="200" />
     </div>
   </div>
@@ -84,10 +98,10 @@ const { proxy } = getCurrentInstance() as any;
 const props = defineProps(['titleType']);
 
 watch(
-  () => props.titleType == 0,
+  () => props.titleType === 0,
   () => {
     nextTick(() => {
-      if (props.titleType == 0) {
+      if (props.titleType === 0) {
         getFriendNoagreeList();
       } else {
         getGroupNoagreeList();
@@ -102,7 +116,7 @@ const friendNoagreeList = ref<FriendNoagree[]>([]);
 
 // 获取好友申请列表
 const getFriendNoagreeList = async () => {
-  let res: FriendNoagreeListResponseData = await reqGetFriendNoagreeList(userInfoStore.userInfo._id);
+  const res: FriendNoagreeListResponseData = await reqGetFriendNoagreeList(userInfoStore.userInfo._id);
   // 0:申请中(发送方)，1:已为好友，2:未加好友=>数据库没记录，3（前端用来判断是否是自己主页），4:申请方(接收方)
   if (res.status === 200) {
     friendNoagreeList.value = res.data;
@@ -114,7 +128,7 @@ const groupNoagreeList = ref<GroupNoagree[]>([]);
 
 // 获取群申请列表
 const getGroupNoagreeList = async () => {
-  let res: GroupNoagreeListResponseData = await reqGetGroupNoagreeList(userInfoStore.userInfo._id);
+  const res: GroupNoagreeListResponseData = await reqGetGroupNoagreeList(userInfoStore.userInfo._id);
   // 状态（0:申请中，1:已为加入该群，2:未加入群）
   if (res.status === 200) {
     groupNoagreeList.value = res.data;
@@ -124,9 +138,9 @@ const getGroupNoagreeList = async () => {
 // 同意按钮回调
 const handleAgreeBtn = async (id: string, userOtherId?: string) => {
   if (!props.titleType) {
-    let userId = userInfoStore.userInfo._id;
+    const userId = userInfoStore.userInfo._id;
     // 参数1: userId(自己的)  参数2: friendId
-    let res: AgreeFriendResponseData = await reqAgreeFriend(userId, id);
+    const res: AgreeFriendResponseData = await reqAgreeFriend(userId, id);
     if (res.status === 200) {
       ElMessage({ type: 'success', message: res.msg });
       // 刷新申请列表
@@ -142,7 +156,7 @@ const handleAgreeBtn = async (id: string, userOtherId?: string) => {
     }
   } else {
     // 参数1: userId(当前申请好友的)  参数2: groupId
-    let res: AgreeGroupResponseData = await reqAgreeGroup(userOtherId as string, id);
+    const res: AgreeGroupResponseData = await reqAgreeGroup(userOtherId as string, id);
     if (res.status === 200) {
       ElMessage({ type: 'success', message: res.msg });
       // 刷新申请列表
@@ -160,9 +174,9 @@ const handleAgreeBtn = async (id: string, userOtherId?: string) => {
 // 拒绝申请按钮回调
 const handleRefuseBtn = async (id: string, userOtherId?: string) => {
   if (!props.titleType) {
-    let userId = userInfoStore.userInfo._id;
+    const userId = userInfoStore.userInfo._id;
     // 参数1: userId(自己的)  参数2: friendId
-    let res: RefuseFriendResponseData = await reqRefuseFriend(userId, id);
+    const res: RefuseFriendResponseData = await reqRefuseFriend(userId, id);
     if (res.status === 200) {
       ElMessage({ type: 'success', message: res.msg });
       // 刷新申请列表
@@ -174,7 +188,7 @@ const handleRefuseBtn = async (id: string, userOtherId?: string) => {
     }
   } else {
     // 参数1: userId(当前申请好友的)  参数2: groupId
-    let res: RefuseGroupResponseData = await reqRefuseGroup(userOtherId as string, id);
+    const res: RefuseGroupResponseData = await reqRefuseGroup(userOtherId as string, id);
     if (res.status === 200) {
       ElMessage({ type: 'success', message: res.msg });
       // 刷新申请列表

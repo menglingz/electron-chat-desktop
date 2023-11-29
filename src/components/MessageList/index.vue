@@ -1,11 +1,11 @@
 <template>
   <ul class="list-content">
-    <template v-if="messageList.length">
+    <template v-if="msgLists.length">
       <li
+        v-for="(item, index) in msgLists"
+        :key="index"
         class="list-item"
         :class="$route.query.id === item._id ? 'active' : ''"
-        v-for="(item, index) in messageList"
-        :key="index"
         @click="changeChatList(item, index)"
       >
         <div class="warp">
@@ -16,7 +16,7 @@
             <div class="nick text-ellipsis">{{ item.nick ? item.nick : item.groupName }}</div>
             <div class="time">{{ formatMessageDate(item.lastMsg.time) }}</div>
           </div>
-          <div class="dots" v-show="item.unreadMsgCount">
+          <div v-show="item.unreadMsgCount" class="dots">
             {{ item.unreadMsgCount > 99 ? '99+' : item.unreadMsgCount }}
           </div>
         </div>
@@ -48,23 +48,23 @@ const $route = useRoute();
 // baseUrl
 const { proxy } = getCurrentInstance() as any;
 
-const props = defineProps(['messageList']);
+const props = defineProps(['msgLists']);
 
-const messageList = ref<MessageList[]>([]);
+const msgLists = ref<MessageList[]>([]);
 
 watch(
-  () => props.messageList,
+  () => props.msgLists,
   (val: MessageList[]) => {
     nextTick(() => {
-      messageList.value = val;
+      msgLists.value = val;
       // 将消息设置为已读
       messageStore.setMessageRead();
       if (messageStore.stagingInfo._id) {
         // 暂存信息中保存了该好友/群信息
-        let currentIndex = messageList.value.findIndex(item => item._id === $route.query.id);
+        const currentIndex = msgLists.value.findIndex(item => item._id === $route.query.id);
         // 还未于该好友发过消息
         if (currentIndex === -1) {
-          messageList.value.unshift(messageStore.stagingInfo);
+          msgLists.value.unshift(messageStore.stagingInfo);
           // 清空暂存信息
           messageStore.clearStagingInfo();
         }
@@ -79,13 +79,13 @@ onBeforeUnmount(() => {
 });
 
 // 当前选中的聊天下标
-let listCurrentIndex = ref<number>(-1);
+const listCurrentIndex = ref<number>(-1);
 // 点击聊天列表切换的回调
 const changeChatList = (item: MessageList, index: number) => {
-  let id = item._id;
+  const id = item._id;
   if (id === $route.query.id) return;
-  let type = item.type === 'friendChat' ? 'friend' : 'group';
-  let name = item.type === 'friendChat' ? item.nick : item.groupName;
+  const type = item.type === 'friendChat' ? 'friend' : 'group';
+  const name = item.type === 'friendChat' ? item.nick : item.groupName;
   $router.push({
     path: '/message',
     query: { id, type, name },

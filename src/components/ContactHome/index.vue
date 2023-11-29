@@ -2,7 +2,7 @@
   <!-- 用户主页 -->
   <div v-if="!homeType">
     <!-- 有数据内容部分 -->
-    <div class="content" v-show="isUserSkeleton">
+    <div v-show="isUserSkeleton" class="content">
       <div class="user-pic" @click="handlePreview(proxy.$baseUrl + userHomeInfo.imgUrl)">
         <img :src="proxy.$baseUrl + userHomeInfo.imgUrl" alt="" />
       </div>
@@ -15,7 +15,7 @@
         <span>电话: {{ userHomeInfo.phone }}</span>
       </div>
       <!-- 图标 -->
-      <div class="pop-contact" v-show="friendState == 1">
+      <div v-show="friendState == 1" class="pop-contact">
         <div class="message" @click="sendMessage">
           <svg
             t="1689688028031"
@@ -71,7 +71,7 @@
           </svg>
         </div>
       </div>
-      <div class="pop-contact" v-show="friendState == 2">
+      <div v-show="friendState == 2" class="pop-contact">
         <div class="add-friend" @click="handleAddFriend">
           <svg
             t="1695875812618"
@@ -91,12 +91,12 @@
           </svg>
         </div>
       </div>
-      <div class="pop-contact" v-show="friendState == 0">
+      <div v-show="friendState == 0" class="pop-contact">
         <span style="font-size: 15px; color: #8c8c8c; margin-top: 20px">好友申请中</span>
       </div>
     </div>
     <!-- 用户主页骨架屏 -->
-    <div class="content" v-show="!isUserSkeleton">
+    <div v-show="!isUserSkeleton" class="content">
       <el-skeleton animated>
         <template #template>
           <div style="width: 100%; display: flex; flex-direction: column; align-items: center">
@@ -116,7 +116,7 @@
   <!-- 群聊主页 -->
   <div v-else>
     <!-- 有数据部分 -->
-    <div class="content" v-show="isGroupSkeleton">
+    <div v-show="isGroupSkeleton" class="content">
       <div class="main">
         <div class="group-info-one">
           <div class="pic" @click="handlePreview(proxy.$baseUrl + groupHomeInfo.group?.imgUrl)">
@@ -128,10 +128,10 @@
             <div class="create-time">创建时间: {{ groupHomeInfo.group?.creatTime }}</div>
           </div>
           <div class="group-btn" @click="handleGroupBtn">
-            <el-icon color="#fff" size="20" v-show="groupState === 1">
+            <el-icon v-show="groupState === 1" color="#fff" size="20">
               <ChatDotSquare />
             </el-icon>
-            <el-icon color="#fff" size="20" v-show="groupState === 2">
+            <el-icon v-show="groupState === 2" color="#fff" size="20">
               <Plus />
             </el-icon>
             <span v-show="groupState === 0" style="font-size: 12px; color: #fff">申请中</span>
@@ -159,7 +159,7 @@
             <div class="title">群成员 ({{ groupHomeInfo.groupUser?.length }}人)</div>
           </div>
           <div class="group-user-list">
-            <div class="group-user-pic" v-for="(item, index) in groupHomeInfo.groupUser" :key="index">
+            <div v-for="(item, index) in groupHomeInfo.groupUser" :key="index" class="group-user-pic">
               <img :src="proxy.$baseUrl + item.userId?.imgUrl" alt="" />
             </div>
           </div>
@@ -220,7 +220,7 @@
       </div>
     </div>
     <!-- 群聊主页骨架屏 -->
-    <div class="content" v-show="!isGroupSkeleton">
+    <div v-show="!isGroupSkeleton" class="content">
       <el-skeleton animated>
         <template #template>
           <div class="main" style="display: flex; justify-content: center; margin: 80px auto 0">
@@ -245,7 +245,7 @@
               </div>
             </div>
           </div>
-          <div class="group-sign" style="width: 500px; margin: 0 auto" v-for="i in 2" :key="i">
+          <div v-for="i in 2" :key="i" class="group-sign" style="width: 500px; margin: 0 auto">
             <el-skeleton-item variant="text" style="margin-bottom: 10px" />
           </div>
         </template>
@@ -293,25 +293,25 @@ $bus.on('contactHomeInfo', (val: any) => {
 });
 
 // 主页类型
-let homeType = ref<number>(0);
+const homeType = ref<number>(0);
 // 用户主页信息
-let userHomeInfo = ref<UserInfoType>({} as UserInfoType);
+const userHomeInfo = ref<UserInfoType>({} as UserInfoType);
 // 用户骨架屏显示/隐藏
-let isUserSkeleton = ref<boolean>(false);
+const isUserSkeleton = ref<boolean>(false);
 // 群主页信息
-let groupHomeInfo = ref<GroupInfoType>({} as GroupInfoType);
+const groupHomeInfo = ref<GroupInfoType>({} as GroupInfoType);
 // 群骨架屏显示/隐藏
-let isGroupSkeleton = ref<boolean>(false);
+const isGroupSkeleton = ref<boolean>(false);
 // 好友状态 state（0:申请中(发送方)，1:已为好友，2:未加好友=>数据库没记录，3（前端用来判断是否是自己主页），4:申请方(接收方)）
-let friendState = ref<number>(2);
+const friendState = ref<number>(2);
 // 用户在群中状态 state => 0:申请中，1:已为加入该群，2:未加入群
-let groupState = ref<number>(2);
+const groupState = ref<number>(2);
 
 // 获取主页信息
 const getContactHomeInfo = async (id: string, type: number) => {
   if (type === 0) {
     // 用户主页
-    let res: UserContactHomeResponseData = await reqGetUserContactHomeInfo({
+    const res: UserContactHomeResponseData = await reqGetUserContactHomeInfo({
       _id: userInfoStore.userInfo._id,
       urlId: id,
     });
@@ -322,7 +322,7 @@ const getContactHomeInfo = async (id: string, type: number) => {
     }
   } else {
     // 群主页
-    let res: GroupContactHomeResponseData = await reqGetGroupContactHomeInfo({
+    const res: GroupContactHomeResponseData = await reqGetGroupContactHomeInfo({
       userId: userInfoStore.userInfo._id,
       groupId: id,
     });
@@ -337,10 +337,10 @@ const getContactHomeInfo = async (id: string, type: number) => {
 
 // 添加好友回调
 const handleAddFriend = async () => {
-  let userId = userInfoStore.userInfo._id;
-  let friendId = userHomeInfo.value._id;
+  const userId = userInfoStore.userInfo._id;
+  const friendId = userHomeInfo.value._id;
   // 参数1: 用户id  参数2: 好友id
-  let res: AddFriendResponseData = await reqAddFriend(userId, friendId);
+  const res: AddFriendResponseData = await reqAddFriend(userId, friendId);
   if (res.status === 200) {
     // 触发socket, 参数: toId: 对方用户id/群主id
     proxy.socket.emit('apply_notice', userHomeInfo.value._id);
@@ -353,11 +353,11 @@ const handleAddFriend = async () => {
 
 // 给好友发消息回调
 const sendMessage = async () => {
-  let userId = userInfoStore.userInfo._id;
-  let friendId = userHomeInfo.value._id;
+  const userId = userInfoStore.userInfo._id;
+  const friendId = userHomeInfo.value._id;
   await messageStore.getFriendChatRecordsList(userId, friendId, 1);
   // 在pinia中暂存该用户信息
-  let info = {
+  const info = {
     imgUrl: userHomeInfo.value.imgUrl,
     lastMsg: {
       time: new Date(),
@@ -380,16 +380,16 @@ const sendMessage = async () => {
 
 // 群主页按钮回调
 const handleGroupBtn = async () => {
-  let state = groupState.value;
+  const state = groupState.value;
   // state => 0:申请中，1:已为加入该群，2:未加入群
   if (state === 0) {
-    return;
+    //
   } else if (state === 1) {
-    let userId = userInfoStore.userInfo._id;
-    let groupId = groupHomeInfo.value.group._id;
+    const userId = userInfoStore.userInfo._id;
+    const groupId = groupHomeInfo.value.group._id;
     await messageStore.getGroupChatRecordsList(userId, groupId, 1);
     // 在pinia中暂存群信息
-    let info = {
+    const info = {
       imgUrl: groupHomeInfo.value.group.imgUrl,
       lastMsg: {
         time: new Date(),
@@ -410,9 +410,9 @@ const handleGroupBtn = async () => {
     });
   } else {
     // 参数1: 群id  参数2: 用户id
-    let groupId = groupHomeInfo.value.group._id;
-    let userId = userInfoStore.userInfo._id;
-    let res: AddGroupResponseData = await reqAddGroup(groupId, userId);
+    const groupId = groupHomeInfo.value.group._id;
+    const userId = userInfoStore.userInfo._id;
+    const res: AddGroupResponseData = await reqAddGroup(groupId, userId);
     if (res.status === 200) {
       // 触发socket, 参数: toId: 对方用户id/群主id
       proxy.socket.emit('apply_notice', groupHomeInfo.value.group.userId);
@@ -427,7 +427,7 @@ const handleGroupBtn = async () => {
 // 图片预览的显示或隐藏
 const showPreviewImg = ref<boolean>(false);
 // 图片预览列表
-let urlList = ref<string[]>([]);
+const urlList = ref<string[]>([]);
 
 // 点击图片预览回调
 const handlePreview = (url: string) => {

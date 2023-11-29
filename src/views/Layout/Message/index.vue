@@ -38,7 +38,7 @@ const messageStore = useMessageStore();
 const $router = useRouter();
 const $route = useRoute();
 
-ipcRenderer.on('update-success', (e: any, groupName: string) => {
+ipcRenderer.on('update-success', (_e: any, groupName: string) => {
   ElMessage({ type: 'success', message: '已保存' });
   messageStore.getMessageList();
   $route.query.name = groupName;

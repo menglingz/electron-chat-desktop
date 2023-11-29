@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <!-- 最近使用 -->
-    <div class="use-wrap" v-if="historyEmojiList.length">
+    <div v-if="historyEmojiList.length" class="use-wrap">
       <div class="emoji-title">最近使用</div>
       <div class="recently-use-emoji">
-        <div class="emoji-item" v-for="(item, index) in historyEmojiList" :key="index" @click="appendEmoji(item)">
+        <div v-for="(item, index) in historyEmojiList" :key="index" class="emoji-item" @click="appendEmoji(item)">
           <img :src="`./gif/${item}.gif`" alt="" />
         </div>
       </div>
@@ -12,7 +12,7 @@
     <!-- 所有表情列表 -->
     <div class="emoji-title">小黄脸表情包</div>
     <div class="all-emoji">
-      <div class="emoji-item" v-for="(item, index) in 203" :key="index" @click="appendEmoji(item)">
+      <div v-for="(item, index) in 203" :key="index" class="emoji-item" @click="appendEmoji(item)">
         <img :src="`./gif/${item}.gif`" alt="" />
       </div>
     </div>
@@ -25,12 +25,12 @@ import { watch, ref } from 'vue';
 const props = defineProps(['historyEmojiList']);
 const emit = defineEmits(['selectEmoji']);
 
-const historyEmojiList = ref<number[]>([]);
+const historyEmojiList1 = ref<number[]>([]);
 
 watch(
   () => props.historyEmojiList,
   (val: number[]) => {
-    historyEmojiList.value = val;
+    historyEmojiList1.value = val;
   },
   { deep: true },
 );

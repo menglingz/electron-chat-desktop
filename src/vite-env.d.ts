@@ -10,3 +10,4 @@ declare module '*.vue' {
   export default componentOptions;
 }
 declare module 'element-plus/dist/locale/zh-cn.mjs';
+declare module 'spark-md5';

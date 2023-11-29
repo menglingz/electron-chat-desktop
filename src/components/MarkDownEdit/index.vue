@@ -3,11 +3,11 @@
     <el-dialog v-model="dialogVisible" top="0" :show-close="false" :lock-scroll="false" fullscreen>
       <div class="edit-content">
         <MdEditor
+          v-model="text"
           class="no-drag"
           style="z-index: 99"
-          v-model="text"
-          :toolbarsExclude="toolbarsExclude"
-          showCodeRowNumber
+          :toolbars-exclude="toolbarsExclude"
+          show-code-row-number
         />
         <div class="dialog-footer" style="z-index: 100">
           <el-button @click="handleClose">退出</el-button>
@@ -23,6 +23,7 @@ import { ref, watch, getCurrentInstance } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { formatTime } from '@/utils/formatTime';
+import { ToolbarNames } from 'md-editor-v3';
 // pinia
 import { useUserInfoStore } from '@/store/modules/user';
 import { useMessageStore } from '@/store/modules/message';
@@ -41,7 +42,7 @@ const props = defineProps(['markDownEditVisible']);
 const emit = defineEmits(['handleMarkDownEditVisible']);
 
 // 控制dialog显示或隐藏
-let dialogVisible = ref<boolean>(false);
+const dialogVisible = ref<boolean>(false);
 
 watch(
   () => props.markDownEditVisible,
@@ -53,7 +54,7 @@ watch(
 // 编辑器文本
 const text = ref('# Hello 歪fChat Editor');
 // 编辑器不展示的组件
-const toolbarsExclude = ['mermaid', 'image', 'save', 'pageFullscreen', 'fullscreen', 'github'];
+const toolbarsExclude = ['mermaid', 'image', 'save', 'pageFullscreen', 'fullscreen', 'github'] as ToolbarNames[];
 
 // 取消按钮回调
 const handleClose = () => {
@@ -64,7 +65,7 @@ const handleClose = () => {
 // 发送按钮回调
 const handleSend = () => {
   const { _id, nick, imgUrl } = userInfoStore.userInfo;
-  let data: MessageType = {
+  const data: MessageType = {
     userId: {
       _id,
       nick,
@@ -75,9 +76,9 @@ const handleSend = () => {
     message: text.value,
   };
   // 发送者id
-  let uId = _id;
+  const uId = _id;
   // 接收者id
-  let toId = $route.query.id;
+  const toId = $route.query.id;
   messageStore.messageChatList.push(data);
   proxy.socket.emit(`${$route.query.type === 'friend' ? 'private' : 'group'}_chat`, data, uId, toId);
   handleClose();
