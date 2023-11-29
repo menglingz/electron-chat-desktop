@@ -1,0 +1,299 @@
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+    outline: none;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    font: inherit;
+    font-size: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    vertical-align: baseline;
+
+    border: 0;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+
+    &:before,
+    &:after {
+        content: '';
+        content: none;
+    }
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+
+    position: relative;
+
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+input,
+textarea,
+button {
+    font-family: inhert;
+    font-size: inherit;
+
+    color: inherit;
+}
+
+select {
+    text-indent: .01px;
+    text-overflow: '';
+
+    border: 0;
+    border-radius: 0;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+code,
+pre {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+html {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    -moz-user-select: none;
+    /*火狐*/
+    -webkit-user-select: none;
+    /*webkit浏览器*/
+    -ms-user-select: none;
+    /*IE10*/
+    -khtml-user-select: none;
+    /*早期浏览器*/
+    -o-user-select: none;
+    user-select: none;
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+
+// 公共样式（可拖拽）
+.drag {
+    user-select: none;
+    -webkit-app-region: drag;
+}
+
+// 公共样式（不可拖拽）
+.no-drag {
+    -webkit-app-region: no-drag;
+}
+
+// 空间顶部可拖拽容器
+.drag-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    z-index: 999;
+    // background-color: #333;
+}
+
+// 文字单行省略
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// 滚动条省略
+// &::-webkit-scrollbar {
+//     display: none;
+// }
+
+//滚动条样式
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(239, 239, 239);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bfbfbf;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #bfbfbf;
+}
+
+::-webkit-scrollbar-corner {
+    background: #bfbfbf;
+}
+
+
+:root {
+    // 暗色模式
+    --dark_WaiF: #656464; // 默认空白内容文字颜色
+    --dark-bg: #333333; // 背景色
+    --dark-text: #fff; // 文字颜色
+    // 亮色模式 
+    --light_WaiF: #cccccc; // 默认空白内容文字颜色
+    --light-bg: #fbfbfb; // 背景色
+    --light-background-color: #f8f8f8; // 基础背景色
+    --light-text: #333; // 文字颜色
+
+    // 公共样式
+    --btn-bg: #4a89fc; // 按钮样式
+}
+
+// login
+:root {
+    --primary-color: #4460f1;
+    --white-color: #ffffff;
+
+    --light-text-color: #9398b3;
+    --light-bg-color: #f2f4ff;
+    --dark-color: #333333;
+
+    --background-color: #fcfcff;
+}
