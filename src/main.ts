@@ -20,17 +20,17 @@ import socket from '@/socket/index';
 import '@/socket/listen-socket';
 // windows右上角按钮
 import WindowsBtn from '@/components/WindowsBtn/index.vue';
+import { useUserInfoStore } from '@/store/modules/user';
 
 // 判断系统
 const process = require('process');
 const isMac = process.platform === 'darwin';
 
 // 将用户信息存pinia
-import { useUserInfoStore } from '@/store/modules/user';
 const userInfoStore = useUserInfoStore(pinia);
-let userInfo = localStorage.getItem('userInfo');
+const userInfo = localStorage.getItem('userInfo');
 if (userInfo) {
-  let obj = JSON.parse(userInfo);
+  const obj = JSON.parse(userInfo);
   userInfoStore.login(obj);
 }
 
