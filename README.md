@@ -29,7 +29,7 @@ nvm install 18.12.1(开发版本 v18.12.1)
 2. 安装依赖
 
 ```
-npm install
+npm i（如遇tencent相关包报错可使用tnpm下载 —— tnpm i）
 ```
 
 3. 运行项目
@@ -59,9 +59,7 @@ npm run eslint // eslint检查
  • packaging       platform=darwin arch=x64 electron=25.9.4 appOutDir=dist/mac
   ⨯ Get "https://github.com/electron/electron/releases/download/v25.9.4/electron-v25.9.4-darwin-x64.zip": EOF
 github.com/develar/app-builder/pkg/download.(*Downloader).follow.func1
-```
 
-```
 //将 Electron 镜像源设置为淘宝镜像源
 npm config set ELECTRON_MIRROR=https://npm.taobao.org/mirrors/electron/
 //将 Electron-builder 镜像源设置为淘宝镜像源
